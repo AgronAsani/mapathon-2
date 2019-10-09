@@ -21,6 +21,9 @@ export default function POI(props) {
   }
 
   return (
+    /*test pour une map après l'authenthofocation*/
+    //https://codepen.io/PaulLeCam/pen/gzVmGw
+    /*fait par le prof 3 poi */
     <div className="poi" style={{ borderColor: statusColor }}>
       {Status && (
         <span className="status" style={{ color: statusColor }}>
@@ -63,7 +66,7 @@ export default function POI(props) {
                 {tag.image && (
                   <img className="category-image" src={tag.image} />
                 )}
-                <small> {tag.name}</small>
+                <small> {tag.name} : je suis un texte en dur</small>
               </span>
             ))}
           </div>

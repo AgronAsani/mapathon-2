@@ -32,7 +32,7 @@ export default class NameForm extends React.Component {
         title: "",
         description: "",
         category: "",
-        picture: "",
+        picture: [],
         mark: ""
       }
     };
@@ -48,9 +48,7 @@ export default class NameForm extends React.Component {
 
     // Merge changed form field into existing newBook object
     this.setState(prevState => ({
-      // Spread existing newBook object and overwrite
-      // dynamic [name] property with the new value
-      newBook: { ...prevState.newPoint, [name]: value }
+      newPoint: { ...prevState.newPoint, [name]: value }
     }));
   }
 
@@ -66,7 +64,7 @@ export default class NameForm extends React.Component {
         title: "",
         description: "",
         category: "",
-        picture: "",
+        picture: [],
         mark: ""
       }
     });
@@ -79,17 +77,16 @@ export default class NameForm extends React.Component {
           <FormInput
             type="text"
             name="title"
-            placeholder="Title"
+            placeholder="title"
             value={this.state.newPoint.title}
             onChange={this.handleChange}
-            fieldRef={this.PointTitleRef}
           />
           <FormInput
             type="text"
             name="description"
             placeholder="description"
             value={this.state.newPoint.description}
-            onChange={this.handleInputChange}
+            onChange={this.handleChange}
           />
           <FormInput
             type="number"
@@ -106,13 +103,17 @@ export default class NameForm extends React.Component {
             onChange={this.handleChange}
           />
 
-          <FormInput
-            type="text"
-            name="category"
-            placeholder="category"
-            value={this.state.newPoint.category}
-            onChange={this.handleChange}
-          />
+          <li>
+            <select
+              value={this.state.newPoint.category}
+              onChange={this.handleChange}
+            >
+              <option value="Business">Business</option>
+              <option value="food">food</option>
+              <option value="activites">activites</option>
+              <option value="monuments">monuments</option>
+            </select>
+          </li>
 
           <button type="submit">Add Point</button>
         </form>

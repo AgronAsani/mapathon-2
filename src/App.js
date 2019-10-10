@@ -5,6 +5,7 @@ import request from "./utils/request";
 import endpoints from "./endpoints";
 import Loading from "./components/Loading";
 import POI from "./components/POI";
+import NewPoint from "./components/NewPoint";
 import MyMap from "./components/MyMap";
 
 function App() {
@@ -67,6 +68,7 @@ function App() {
                 </li>
               ))}
             </ul>
+            <NewPoint />
           </div>
         )}
       </header>

@@ -7,58 +7,88 @@ import Loading from "./components/Loading";
 import POI from "./components/POI";
 import NewPoint from "./components/NewPoint";
 import MyMap from "./components/MyMap";
+import NavigationBar from "./components/NavigationBar";
 
 function App() {
   let [pois, setPois] = useState([]);
   let [markers, setMarkers] = useState([]);
-  let { loading, loginWithRedirect, getTokenSilently } = useAuth0();
+  let {
+    loading,
+    loginWithPopup,
+    getTokenSilently,
+    logout,
+    isAuthenticated
+  } = useAuth0();
 
+  let [menuState, setMenuState] = useState(false);
   let handlePOIsClick = async e => {
+    e.preventDefault();
+    try {
+      let token = await getTokenSilently();
+    } catch (e) {
+      console.error(e);
+      await loginWithPopup();
+    }
+  };
+  let handleLogout = () => {
+    logout();
+    setPois([]);
+  };
+  let handleMenu = () => {
+    setMenuState(!menuState);
+  };
+  let handleMenuChange = isOpen => {
+    setMenuState(isOpen);
+  };
+  let handleGetPOI = async e => {
     e.preventDefault();
     let pois = await request(
       `${process.env.REACT_APP_SERVER_URL}${endpoints.pois}`,
       getTokenSilently,
-      loginWithRedirect
+      loginWithPopup
     );
-
-    if (pois && pois.length > 0) {
-      console.log(pois);
-      setPois(pois);
-      let markers = [];
-      for (let i in pois) {
-        let poi = pois[i];
-        //initialisation for the pin with the content.
-        markers.push({
-          key: poi.name,
-          position: [poi.lat, poi.lng],
-          content: {
-            title: poi.name,
-            description: poi.description
-          }
-        });
-      }
-      // update all the marker in state
-      setMarkers(markers);
+    setPois(pois);
+    console.log(pois);
+    let markers = [];
+    for (let i in pois) {
+      let poi = pois[i];
+      //initialisation for the pin with the content.
+      markers.push({
+        key: poi.name,
+        position: [poi.lat, poi.lng],
+        content: {
+          title: poi.name,
+          description: poi.description
+        }
+      });
     }
+    // update all the marker in state
+    setMarkers(markers);
   };
-
   if (loading) {
     return <Loading />;
   }
 
   return (
     <div className="App">
+      <NavigationBar
+        handleLogin={handlePOIsClick}
+        handleLogout={handleLogout}
+        handleMenu={handleMenu}
+        handleGetPOI={handleGetPOI}
+        isAuthenticated={isAuthenticated}
+      />
       <header className="App-header">
-        <h1>Mapathon</h1>
-        <br />
-        <a className="App-link" href="#" onClick={handlePOIsClick}>
-          Login to see the POI (point of interest)
-        </a>
-        {pois && pois.length > 0 && (
-          <p> click on the map to self-location ;) and unzoom manually </p>
-        )}
-        <MyMap markers={markers} meText={"coucou"} />
-        {pois && pois.length > 0 && (
+        <MyMap
+          markers={markers}
+          meText={"coucou"}
+          menuState={menuState}
+          isAuthenticated={isAuthenticated}
+          handleMenu={handleMenu}
+          handleMenuChange={handleMenuChange}
+        />
+
+        {/* {pois && pois.length > 0 && (
           <div>
             <p> below we can see all the list of POI from BDD</p>
             <ul className="POI-List">
@@ -70,7 +100,7 @@ function App() {
             </ul>
             <NewPoint />
           </div>
-        )}
+        )} */}
       </header>
     </div>
   );

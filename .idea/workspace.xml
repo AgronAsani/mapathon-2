@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9d99ef1f-6be9-48ac-88ce-0e79a9308b07" name="Default Changelist" comment="1) Modification of MyMap for accept a list of marker (for POI) &#10;2) Add some texte to be more clear and comment.">
+      <change afterPath="$PROJECT_DIR$/env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/env.local" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/MyMap.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/MyMap.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/POI.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/POI.css" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -69,6 +74,7 @@
       <recent name="$PROJECT_DIR$/src" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\OneDrive\Ecole\Semestre_5\worspace\Project_React\Mapathon_6" />
       <recent name="D:\OneDrive\Ecole\Semestre_5\worspace\Project_React\Mapathon-3" />
       <recent name="$PROJECT_DIR$/src/components" />
     </key>
@@ -130,6 +136,10 @@
       <workItem from="1570549732676" duration="6508000" />
       <workItem from="1570692300306" duration="4098000" />
       <workItem from="1570697727276" duration="2928000" />
+      <workItem from="1571302525348" duration="385000" />
+      <workItem from="1571302927528" duration="857000" />
+      <workItem from="1571304047247" duration="1023000" />
+      <workItem from="1571332357950" duration="6958000" />
     </task>
     <servers />
   </component>

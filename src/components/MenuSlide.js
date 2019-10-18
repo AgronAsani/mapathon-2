@@ -22,10 +22,16 @@ class MenuSlide extends Component {
           {this.props.menuMode == MENU_MODES.DEFAULT ? (
             "Default"
           ) : (
-            <AddForm
-              currentPointer={this.props.currentPointer}
-              handleForm={this.handleForm}
-            />
+            <div>
+              <p>{this.props.locationToAdd.lat}</p>
+              <p>{this.props.locationToAdd.lng}</p>
+              <AddForm
+                locationToAdd={this.props.locationToAdd}
+                handleForm={this.handleForm}
+                changeMode={this.props.changeMode}
+                handleMenu={this.props.handleMenu}
+              />
+            </div>
           )}
         </div>
       </Menu>

@@ -1,15 +1,21 @@
-import React, { Component, createRef, Fragment } from "react";
+import React, { Component, createRef, Fragment, useState } from "react";
 import MENU_MODES from "../MenuModes";
 import { Map, TileLayer, Marker, Popup } from "react-leaflet";
 import { Button } from "react-bootstrap";
 import MenuSlide from "./MenuSlide";
 import Control from "@skyeer/react-leaflet-custom-control";
 import { IoMdLocate } from "react-icons/io";
+import { latLngBounds } from "leaflet";
 type Position = [number, number];
 type Props = {|
   content: string,
   position: Position
 |};
+
+const DEFAULT_VIEWPORT = {
+  center: [46.310473, 7.6397229],
+  zoom: 13
+};
 
 type MarkerData = {| ...Props, key: string |};
 
@@ -39,7 +45,10 @@ export default class MyMap extends Component<{}, State> {
     hasLocation: false,
     currentLocation: null,
     currentPointer: null,
-    center: null
+    myLocation: null,
+    center: DEFAULT_VIEWPORT,
+    zoom: 13,
+    locationToAdd: null
   };
 
   mapRef = createRef();
@@ -56,19 +65,41 @@ export default class MyMap extends Component<{}, State> {
   handleSelfLocate = () => {
     const map = this.mapRef.current;
     if (map != null) {
-      map.leafletElement.locate();
+      if (this.state.myLocation != null) {
+        console.log("coucou");
+        this.setState({
+          center: { center: this.state.myLocation, zoom: 18 }
+        });
+      } else {
+        const map = this.mapRef.current;
+        if (map != null) {
+          map.leafletElement.locate();
+        }
+      }
     }
   };
 
+  onViewportChanged = (viewport: Viewport) => {
+    this.setState({ center: viewport });
+  };
+
   handleLocationFound = (e: Object) => {
+    let myVP = {};
     this.setState({
       hasLocation: true,
+      myLocation: e.latlng,
       currentLocation: e.latlng,
-      center: e.latlng
+      center: {
+        center: e.latlng,
+        zoom: 18
+      }
     });
   };
   handleForm = newPOI => {
     this.props.handleForm(newPOI);
+  };
+  handleChangeMode = mode => {
+    this.props.handleChangeMode(mode);
   };
   // recenter = () => {
   //   if (this.state.hasLocation) {
@@ -78,7 +109,17 @@ export default class MyMap extends Component<{}, State> {
   //     }));
   //   }
   // };
+  handleAddLocation = () => {
+    this.setState(
+      prevState => ({ locationToAdd: this.state.currentPointer }),
+      () => this.handleChangeMode()
+    );
+    this.props.handleMenu();
+  };
 
+  handleChangeMode = () => {
+    this.props.handleChangeMode();
+  };
   render() {
     let currentLocationMarker = this.state.currentLocation ? (
       <Marker position={this.state.currentLocation}>
@@ -93,7 +134,7 @@ export default class MyMap extends Component<{}, State> {
           autoPan={true}
         >
           <Popup>
-            <Button variant="primary" onClick={this.props.handleMenu}>
+            <Button variant="primary" onClick={this.handleAddLocation}>
               Add location
             </Button>
           </Popup>
@@ -104,24 +145,18 @@ export default class MyMap extends Component<{}, State> {
       <div>
         <MenuSlide
           isOpen={this.props.menuState}
-          menuMode={
-            this.state.currentPointer ? MENU_MODES.ADD_POI : MENU_MODES.DEFAULT
-          }
+          menuMode={this.props.menuMode}
+          handleMenu={this.props.handleMenu}
           handleMenuChange={this.handleMenuChange}
-          currentPointer={this.state.currentPointer}
+          locationToAdd={this.state.locationToAdd}
           handleForm={this.handleForm}
+          changeMode={this.handleChangeMode}
         />
         <Map
-          center={
-            // this.props.markers && this.props.markers[0]
-            //   ? this.props.markers[0].position
-            //   : [46.310473, 7.6397229] //leuk
-            this.state.center
-              ? [this.state.center.lat, this.state.center.lng]
-              : [46.310473, 7.6397229]
-          }
+          viewport={this.state.center}
+          onViewportChanged={this.onViewportChanged}
           onLocationfound={this.handleLocationFound}
-          zoom={13}
+          zoom={this.state.zoom}
           ref={this.mapRef}
           onClick={this.handleClick}
           doubleClickZoom={false}

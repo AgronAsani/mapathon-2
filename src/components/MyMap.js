@@ -39,7 +39,8 @@ export default class MyMap extends Component<{}, State> {
     hasLocation: false,
     currentLocation: null,
     currentPointer: null,
-    center: null
+    center: null,
+    locationToAdd: null
   };
 
   mapRef = createRef();
@@ -70,6 +71,9 @@ export default class MyMap extends Component<{}, State> {
   handleForm = newPOI => {
     this.props.handleForm(newPOI);
   };
+  handleChangeMode = mode => {
+    this.props.handleChangeMode(mode);
+  };
   // recenter = () => {
   //   if (this.state.hasLocation) {
   //     this.setState(prevState => ({
@@ -78,7 +82,17 @@ export default class MyMap extends Component<{}, State> {
   //     }));
   //   }
   // };
+  handleAddLocation = () => {
+    this.setState(
+      prevState => ({ locationToAdd: this.state.currentPointer }),
+      () => this.handleChangeMode()
+    );
+    this.props.handleMenu();
+  };
 
+  handleChangeMode = () => {
+    this.props.handleChangeMode();
+  };
   render() {
     let currentLocationMarker = this.state.currentLocation ? (
       <Marker position={this.state.currentLocation}>
@@ -93,7 +107,7 @@ export default class MyMap extends Component<{}, State> {
           autoPan={true}
         >
           <Popup>
-            <Button variant="primary" onClick={this.props.handleMenu}>
+            <Button variant="primary" onClick={this.handleAddLocation}>
               Add location
             </Button>
           </Popup>
@@ -104,18 +118,15 @@ export default class MyMap extends Component<{}, State> {
       <div>
         <MenuSlide
           isOpen={this.props.menuState}
-          menuMode={
-            this.state.currentPointer ? MENU_MODES.ADD_POI : MENU_MODES.DEFAULT
-          }
+          menuMode={this.props.menuMode}
+          handleMenu={this.props.handleMenu}
           handleMenuChange={this.handleMenuChange}
-          currentPointer={this.state.currentPointer}
+          locationToAdd={this.state.locationToAdd}
           handleForm={this.handleForm}
+          changeMode={this.handleChangeMode}
         />
         <Map
           center={
-            // this.props.markers && this.props.markers[0]
-            //   ? this.props.markers[0].position
-            //   : [46.310473, 7.6397229] //leuk
             this.state.center
               ? [this.state.center.lat, this.state.center.lng]
               : [46.310473, 7.6397229]

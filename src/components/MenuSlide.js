@@ -20,7 +20,7 @@ class MenuSlide extends Component {
       >
         <div>
           {this.props.menuMode == MENU_MODES.DEFAULT ? (
-            "
+            "Default"
           ) : (
             <div>
               <p>{this.props.locationToAdd.lat}</p>

@@ -42,8 +42,16 @@
 .status{
     border-radius: 10px;
 }
-/*chnage the size of the map*/
+/*change the size of the map , it's take the dim of the screen*/
 .leaflet-container {
-    height: 100vh;
-    width: 100vw;
+    position:fixed;
+    padding:0;
+    margin:0;
+
+    top:20;
+    left:0;
+
+    width: 100%;
+    height: 100%;
+    background:rgba(255,255,255,0.5);
 }

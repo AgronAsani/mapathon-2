@@ -96,11 +96,9 @@ function App() {
       console.log(data);
     } catch (error) {}
   };
-
   if (loading) {
     return <Loading />;
   }
-
   return (
     <div className="App">
       <NavigationBar
@@ -110,11 +108,10 @@ function App() {
         handleGetPOI={handleGetPOI}
         isAuthenticated={isAuthenticated}
       />
-
       <header className="App-header">
         <MyMap
           markers={markers}
-          meText={"coucou"}
+          meText={"you are here"}
           menuState={menuState}
           menuMode={menuMode}
           isAuthenticated={isAuthenticated}
@@ -123,8 +120,7 @@ function App() {
           handleForm={handleForm}
           handleChangeMode={handleChangeMode}
         />
-
-        {/* {pois && pois.length > 0 && (
+        {/*pois && pois.length > 0 && (
           <div>
             <p> below we can see all the list of POI from BDD</p>
             <ul className="POI-List">
@@ -135,7 +131,7 @@ function App() {
               ))}
             </ul>
           </div>
-        )} */}
+        )*/}
       </header>
     </div>
   );

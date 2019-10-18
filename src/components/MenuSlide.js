@@ -23,8 +23,8 @@ class MenuSlide extends Component {
             "Default"
           ) : (
             <div>
-              <p>{this.props.locationToAdd.lat}</p>
-              <p>{this.props.locationToAdd.lng}</p>
+              {/*<p>{this.props.locationToAdd.lat}</p>
+              <p>{this.props.locationToAdd.lng}</p> */}
               <AddForm
                 locationToAdd={this.props.locationToAdd}
                 handleForm={this.handleForm}
@@ -46,7 +46,7 @@ var burgerStyles = {
     position: "fixed",
     width: "36px",
     height: "30px",
-    left: "36px",
+    left: "100px",
     top: "36px"
   },
   bmBurgerBars: {
@@ -65,24 +65,28 @@ var burgerStyles = {
   },
   bmMenuWrap: {
     position: "fixed",
+    width: "30%",
     height: "100%"
   },
   bmMenu: {
-    background: "#fcfcfc",
-    padding: "2.5em 1.5em 0",
-    fontSize: "1.15em"
+    background: "#FFFFFF",
+    padding: "2.5em 1em 0",
+    fontSize: "15px",
+    fontWeight: "bold"
   },
   bmMorphShape: {
     fill: "#373a47"
   },
   bmItemList: {
-    color: "#b8b7ad",
+    color: "#373a47",
     padding: "0.8em"
   },
   bmItem: {
-    display: "inline-block"
+    outline: "none",
+    display: "block",
+    textAlign: "left"
   },
   bmOverlay: {
-    background: "rgba(0, 0, 0, 0.3)"
+    background: "none"
   }
 };

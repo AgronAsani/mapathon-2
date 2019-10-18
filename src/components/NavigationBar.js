@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { Navbar, Nav, NavDropdown, Button } from "react-bootstrap";
+
 class NavigationBar extends Component {
   state = {};
   render() {
     return (
       <React.Fragment>
-        <Navbar bg="light" expand="lg">
+        <Navbar bg="" expand="lg">
           <Navbar.Brand>Mapathon</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">

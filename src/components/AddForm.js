@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Form } from "react-bootstrap";
 import MENU_MODES from "../MenuModes";
+
 class AddForm extends Component {
   constructor(props) {
     super(props);
@@ -10,6 +11,7 @@ class AddForm extends Component {
         description: "",
         group: 0,
         image: "",
+        URL: "",
         lat:
           this.props.locationToAdd == null ? 0 : this.props.locationToAdd.lat,
         lng: this.props.locationToAdd == null ? 0 : this.props.locationToAdd.lng
@@ -37,6 +39,7 @@ class AddForm extends Component {
           description: this.state.newPOI.description,
           group: this.state.newPOI.group,
           image: this.state.newPOI.image,
+          URL: this.state.newPOI.URL,
           lat: this.props.locationToAdd.lat,
           lng: this.props.locationToAdd.lng
         }
@@ -68,18 +71,15 @@ class AddForm extends Component {
       <React.Fragment>
         <div>
           <form ref="form">
+            <p className="h4 text-center mb-4"> Add a point </p>
+            <p>Latitude : {this.props.locationToAdd.lat}</p>
+            <p>Longitude : {this.props.locationToAdd.lng}</p>
             Name:{" "}
             <input
               id="name"
               type="text"
               onChange={this.inputFieldValueChanged}
-            />
-            <br />
-            Description:{" "}
-            <input
-              id="description"
-              type="text"
-              onChange={this.inputFieldValueChanged}
+              className="form-control"
             />
             <br />
             Group:{" "}
@@ -87,23 +87,43 @@ class AddForm extends Component {
               id="group"
               type="number"
               onChange={this.inputFieldValueChanged}
-            />
-            Image:{" "}
-            <input
-              id="image"
-              type="text"
-              onChange={this.inputFieldValueChanged}
+              className="form-control"
             />
             <br />
+            Image:
             <input
-              className="btn btn-success "
+              id="image"
+              type="URL"
+              onChange={this.inputFieldValueChanged}
+              className="form-control"
+            />
+            <br />
+            URL:{" "}
+            <input
+              id="URL"
+              type="URL"
+              onChange={this.inputFieldValueChanged}
+              className="form-control"
+            />
+            <br />
+            Description:{" "}
+            <textarea
+              id="description"
+              type="text"
+              onChange={this.inputFieldValueChanged}
+              rows="3"
+              className="form-control"
+            />
+            <br />
+            <p></p>
+            <input
+              className="btn btn-info"
               type="submit"
               onClick={this.addPOIButtonClicked}
-              value="Add POI"
+              value="submit"
+              style={{ display: "block", margin: "0 auto" }}
             />
           </form>
-          <p>{this.props.locationToAdd.lat}</p>
-          <p>{this.props.locationToAdd.lng}</p>
         </div>
       </React.Fragment>
     );

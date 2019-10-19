@@ -6,8 +6,10 @@ import requestPOI from "./utils/requestPOI";
 import endpoints from "./endpoints";
 import Loading from "./components/Loading";
 import POI from "./components/POI";
+import NewPoint from "./components/NewPoint";
 import MyMap from "./components/MyMap";
 import NavigationBar from "./components/NavigationBar";
+import MENU_MODES from "./MenuModes";
 
 function App() {
   let [pois, setPois] = useState([]);
@@ -21,6 +23,7 @@ function App() {
   } = useAuth0();
 
   let [menuState, setMenuState] = useState(false);
+  let [menuMode, setMenuMode] = useState(MENU_MODES.DEFAULT);
   let handlePOIsClick = async e => {
     e.preventDefault();
     try {
@@ -39,6 +42,9 @@ function App() {
   };
   let handleMenuChange = isOpen => {
     setMenuState(isOpen);
+  };
+  let handleChangeMode = mode => {
+    setMenuMode(mode);
   };
   let handleGetPOI = async () => {
     // e.preventDefault();
@@ -91,11 +97,9 @@ function App() {
       console.log(data);
     } catch (error) {}
   };
-
   if (loading) {
     return <Loading />;
   }
-
   return (
     <div className="App">
       <NavigationBar
@@ -105,19 +109,19 @@ function App() {
         handleGetPOI={handleGetPOI}
         isAuthenticated={isAuthenticated}
       />
-
       <header className="App-header">
         <MyMap
           markers={markers}
-          meText={"coucou"}
+          meText={"you are here"}
           menuState={menuState}
+          menuMode={menuMode}
           isAuthenticated={isAuthenticated}
           handleMenu={handleMenu}
           handleMenuChange={handleMenuChange}
           handleForm={handleForm}
+          handleChangeMode={handleChangeMode}
         />
-
-        {/* {pois && pois.length > 0 && (
+        {/*pois && pois.length > 0 && (
           <div>
             <p> below we can see all the list of POI from BDD</p>
             <ul className="POI-List">
@@ -127,8 +131,9 @@ function App() {
                 </li>
               ))}
             </ul>
+            <NewPoint />
           </div>
-        )} */}
+        )*/}
       </header>
     </div>
   );

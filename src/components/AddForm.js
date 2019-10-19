@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Form } from "react-bootstrap";
+import MENU_MODES from "../MenuModes";
+
 class AddForm extends Component {
   constructor(props) {
     super(props);
@@ -9,8 +11,10 @@ class AddForm extends Component {
         description: "",
         group: 0,
         image: "",
-        lat: this.props.currentPointer.lat,
-        lng: this.props.currentPointer.lng
+        URL: "",
+        lat:
+          this.props.locationToAdd == null ? 0 : this.props.locationToAdd.lat,
+        lng: this.props.locationToAdd == null ? 0 : this.props.locationToAdd.lng
       }
     };
   }
@@ -22,53 +26,105 @@ class AddForm extends Component {
         [event.target.id]: event.target.value
       }
     });
+    console.log(this.state);
   };
 
   addPOIButtonClicked = event => {
     event.preventDefault();
-    this.props.handleForm(this.state.newPOI);
+    console.log(this.state);
     this.setState(
-      {
-        newCategoryObject: { id: null, name: null, budget: null }
-      },
-      () => this.refs.form.reset()
+      prevState => ({
+        newPOI: {
+          name: this.state.newPOI.name,
+          description: this.state.newPOI.description,
+          group: this.state.newPOI.group,
+          image: this.state.newPOI.image,
+          URL: this.state.newPOI.URL,
+          lat: this.props.locationToAdd.lat,
+          lng: this.props.locationToAdd.lng
+        }
+      }),
+      () => this.props.handleForm(this.state.newPOI)
     );
+    this.refs.form.reset();
+    // this.setState(
+    //   {
+    //     newPOI: {
+    //       name: "",
+    //       description: "",
+    //       group: 0,
+    //       image: "",
+    //       lat:
+    //         this.props.locationToAdd == null ? 0 : this.props.locationToAdd.lat,
+    //       lng:
+    //         this.props.locationToAdd == null ? 0 : this.props.locationToAdd.lng
+    //     }
+    //   },
+    //   () => this.refs.form.reset()
+    // );
+    this.props.changeMode(MENU_MODES.DEFAULT);
+    this.props.handleMenu();
   };
 
   render() {
     return (
       <React.Fragment>
-        <form ref="form">
-          Name:{" "}
-          <input id="name" type="text" onChange={this.inputFieldValueChanged} />
-          <br />
-          Description:{" "}
-          <input
-            id="description"
-            type="text"
-            onChange={this.inputFieldValueChanged}
-          />
-          <br />
-          Group:{" "}
-          <input
-            id="group"
-            type="number"
-            onChange={this.inputFieldValueChanged}
-          />
-          Image:{" "}
-          <input
-            id="image"
-            type="text"
-            onChange={this.inputFieldValueChanged}
-          />
-          <br />
-          <input
-            className="btn btn-success "
-            type="submit"
-            onClick={this.addPOIButtonClicked}
-            value="Add POI"
-          />
-        </form>
+        <div>
+          <form ref="form">
+            <p className="h4 text-center mb-4"> Add a point </p>
+            <p>Latitude : {this.props.locationToAdd.lat}</p>
+            <p>Longitude : {this.props.locationToAdd.lng}</p>
+            Name:{" "}
+            <input
+              id="name"
+              type="text"
+              onChange={this.inputFieldValueChanged}
+              className="form-control"
+            />
+            <br />
+            Group:{" "}
+            <input
+              id="group"
+              type="number"
+              onChange={this.inputFieldValueChanged}
+              className="form-control"
+            />
+            <br />
+            Image:
+            <input
+              id="image"
+              type="URL"
+              onChange={this.inputFieldValueChanged}
+              className="form-control"
+            />
+            <br />
+            URL:{" "}
+            <input
+              id="URL"
+              type="URL"
+              onChange={this.inputFieldValueChanged}
+              className="form-control"
+            />
+            <br />
+            Description:{" "}
+            <textarea
+              id="description"
+              type="text"
+              onChange={this.inputFieldValueChanged}
+              rows="3"
+              className="form-control"
+            />
+            <br />
+            <p></p>
+            <input
+              className="btn btn-info"
+              type="submit"
+              onClick={this.addPOIButtonClicked}
+              value="submit"
+              style={{ display: "block", margin: "0 auto" }}
+            />
+          </form>
+        </div>
       </React.Fragment>
     );
   }

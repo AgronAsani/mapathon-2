@@ -1,5 +1,5 @@
-@import url("http://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css");
-@import url("http://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.css");
 
 .App {
   text-align: center;
@@ -13,7 +13,6 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -36,7 +35,7 @@
   }
 }
 
-.POI-List{
+.POI-List {
   list-style-type: none;
   padding: 0;
 }
@@ -54,7 +53,7 @@
   right: 0;
 }
 
-hr{
+hr {
   background: white;
   height: 1px;
   border: 0;

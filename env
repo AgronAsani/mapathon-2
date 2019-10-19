@@ -1,0 +1,4 @@
+TRAEFIK_URL=grp2.p645.hevs.ch
+TRAEFIK_BACKEND=grp2-react
+TRAEFIK_NETWORK=prod
+

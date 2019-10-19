@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import MENU_MODES from "../MenuModes";
 
 class AddForm extends Component {
@@ -11,7 +11,7 @@ class AddForm extends Component {
         description: "",
         group: 0,
         image: "",
-        URL: "",
+        url: "",
         lat:
           this.props.locationToAdd == null ? 0 : this.props.locationToAdd.lat,
         lng: this.props.locationToAdd == null ? 0 : this.props.locationToAdd.lng
@@ -26,12 +26,10 @@ class AddForm extends Component {
         [event.target.id]: event.target.value
       }
     });
-    console.log(this.state);
   };
 
   addPOIButtonClicked = event => {
     event.preventDefault();
-    console.log(this.state);
     this.setState(
       prevState => ({
         newPOI: {
@@ -39,7 +37,7 @@ class AddForm extends Component {
           description: this.state.newPOI.description,
           group: this.state.newPOI.group,
           image: this.state.newPOI.image,
-          URL: this.state.newPOI.URL,
+          url: this.state.newPOI.url,
           lat: this.props.locationToAdd.lat,
           lng: this.props.locationToAdd.lng
         }
@@ -47,33 +45,17 @@ class AddForm extends Component {
       () => this.props.handleForm(this.state.newPOI)
     );
     this.refs.form.reset();
-    // this.setState(
-    //   {
-    //     newPOI: {
-    //       name: "",
-    //       description: "",
-    //       group: 0,
-    //       image: "",
-    //       lat:
-    //         this.props.locationToAdd == null ? 0 : this.props.locationToAdd.lat,
-    //       lng:
-    //         this.props.locationToAdd == null ? 0 : this.props.locationToAdd.lng
-    //     }
-    //   },
-    //   () => this.refs.form.reset()
-    // );
-    this.props.changeMode(MENU_MODES.DEFAULT);
-    this.props.handleMenu();
   };
-
+  backButtonClicked = event => {
+    event.preventDefault();
+    this.props.handleBackClick();
+  };
   render() {
     return (
       <React.Fragment>
         <div>
           <form ref="form">
             <p className="h4 text-center mb-4"> Add a point </p>
-            <p>Latitude : {this.props.locationToAdd.lat}</p>
-            <p>Longitude : {this.props.locationToAdd.lng}</p>
             Name:{" "}
             <input
               id="name"
@@ -100,7 +82,7 @@ class AddForm extends Component {
             <br />
             URL:{" "}
             <input
-              id="URL"
+              id="url"
               type="URL"
               onChange={this.inputFieldValueChanged}
               className="form-control"
@@ -120,9 +102,17 @@ class AddForm extends Component {
               className="btn btn-info"
               type="submit"
               onClick={this.addPOIButtonClicked}
-              value="submit"
+              value="Submit"
               style={{ display: "block", margin: "0 auto" }}
             />
+            <br />
+            <Button
+              onClick={this.backButtonClicked}
+              variant="danger"
+              style={{ display: "block", margin: "0 auto" }}
+            >
+              Go back
+            </Button>
           </form>
         </div>
       </React.Fragment>

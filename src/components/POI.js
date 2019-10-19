@@ -2,8 +2,8 @@ import React from "react";
 import "./POI.css";
 
 export default function POI(props) {
-  const { name, description, lat, lng, image, url } = props;
-  const { Categories, Tags, User, Status } = props;
+  const { name, description, lat, lng, image, url } = props.content;
+  const { Categories, Tags, User, Status } = props.content;
 
   let statusColor;
   if (Status) {
@@ -21,9 +21,6 @@ export default function POI(props) {
   }
 
   return (
-    /*test pour une map après l'authenthofocation*/
-    //https://codepen.io/PaulLeCam/pen/gzVmGw
-    /*fait par le prof 3 poi */
     <div className="poi" style={{ borderColor: statusColor }}>
       {Status && (
         <span className="status" style={{ color: statusColor }}>
@@ -42,7 +39,7 @@ export default function POI(props) {
           ))}
         </div>
       )}
-      <h2>
+      <h3>
         {url ? (
           <a href={url} target="_blank" className="App-link">
             {name}
@@ -50,8 +47,15 @@ export default function POI(props) {
         ) : (
           <span>{name}</span>
         )}
-      </h2>
-      {image && <img className="poi-image" alt={name} src={image} />}
+      </h3>
+      {image && (
+        <img
+          className="poi-image"
+          alt={name}
+          src={image}
+          style={{ width: "100%" }}
+        />
+      )}
       <section>{description}</section>
       {Tags && Tags.length > 0 && (
         <>

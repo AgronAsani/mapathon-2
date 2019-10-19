@@ -6,6 +6,7 @@ import MenuSlide from "./MenuSlide";
 import Control from "@skyeer/react-leaflet-custom-control";
 import { IoMdLocate } from "react-icons/io";
 import { latLngBounds } from "leaflet";
+import POI from "./POI";
 type Position = [number, number];
 type Props = {|
   content: string,
@@ -23,8 +24,7 @@ type MarkerData = {| ...Props, key: string |};
 const MyPopupMarker = ({ content, position }: Props) => (
   <Marker position={position}>
     <Popup>
-      {content.title} <br />
-      <small>{content.description}</small>
+      <POI content={content.poi} />
     </Popup>
   </Marker>
 );
@@ -66,7 +66,6 @@ export default class MyMap extends Component<{}, State> {
     const map = this.mapRef.current;
     if (map != null) {
       if (this.state.myLocation != null) {
-        console.log("coucou");
         this.setState({
           center: { center: this.state.myLocation, zoom: 18 }
         });
@@ -95,31 +94,24 @@ export default class MyMap extends Component<{}, State> {
       }
     });
   };
-  handleForm = newPOI => {
-    this.props.handleForm(newPOI);
-  };
-  handleChangeMode = mode => {
-    this.props.handleChangeMode(mode);
-  };
-  // recenter = () => {
-  //   if (this.state.hasLocation) {
-  //     this.setState(prevState => ({
-  //       hasLocation: false,
-  //       center: null
-  //     }));
-  //   }
-  // };
+
   handleAddLocation = () => {
     this.setState(
       prevState => ({ locationToAdd: this.state.currentPointer }),
-      () => this.handleChangeMode()
+      () => this.props.handleChangeMode(MENU_MODES.ADD_POI)
     );
     this.props.handleMenu();
   };
-
-  handleChangeMode = () => {
-    this.props.handleChangeMode();
+  handleForm = newPOI => {
+    this.props.handleForm(newPOI);
+    this.setState(prevState => ({ currentPointer: null }));
   };
+  handleBackClick = () => {
+    this.props.handleMenu();
+    this.props.handleChangeMode(MENU_MODES.DEFAULT);
+    this.setState(prevState => ({ currentPointer: null }));
+  };
+
   render() {
     let currentLocationMarker = this.state.currentLocation ? (
       <Marker position={this.state.currentLocation}>
@@ -150,7 +142,8 @@ export default class MyMap extends Component<{}, State> {
           handleMenuChange={this.handleMenuChange}
           locationToAdd={this.state.locationToAdd}
           handleForm={this.handleForm}
-          changeMode={this.handleChangeMode}
+          changeMode={this.props.handleChangeMode}
+          handleBackClick={this.handleBackClick}
         />
         <Map
           viewport={this.state.center}

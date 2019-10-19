@@ -7,9 +7,10 @@ class MenuSlide extends Component {
   handleMenuChange = state => {
     this.props.handleMenuChange(state.isOpen);
   };
-  handleForm = newPOI => {
-    this.props.handleForm(newPOI);
-  };
+  // handleForm = newPOI => {
+  //   console.log("slide");
+  //   this.props.handleForm(newPOI);
+  // };
   render() {
     return (
       <Menu
@@ -23,13 +24,10 @@ class MenuSlide extends Component {
             "Default"
           ) : (
             <div>
-              {/*<p>{this.props.locationToAdd.lat}</p>
-              <p>{this.props.locationToAdd.lng}</p> */}
               <AddForm
                 locationToAdd={this.props.locationToAdd}
-                handleForm={this.handleForm}
-                changeMode={this.props.changeMode}
-                handleMenu={this.props.handleMenu}
+                handleForm={this.props.handleForm}
+                handleBackClick={this.props.handleBackClick}
               />
             </div>
           )}

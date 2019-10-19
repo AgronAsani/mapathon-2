@@ -11,26 +11,14 @@ class NavigationBar extends Component {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-              <Nav.Link href="#home">Home</Nav.Link>
-              <Nav.Link href="#link">Link</Nav.Link>
-              <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">
-                  Another action
-                </NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">
-                  Something
-                </NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">
-                  Separated link
-                </NavDropdown.Item>
-              </NavDropdown>
+              <Nav.Link href="https://github.com/roger-schaer/mapathon">
+                Source Repository
+              </Nav.Link>
             </Nav>
             {this.props.isAuthenticated ? (
               <div>
                 <Button
-                  variant="outline-warning"
+                  variant="warning"
                   className="mr-sm-2"
                   onClick={this.props.handleGetPOI}
                 >
@@ -38,7 +26,7 @@ class NavigationBar extends Component {
                 </Button>
 
                 <Button
-                  variant="outline-info"
+                  variant="info"
                   className="mr-sm-2"
                   onClick={this.props.handleMenu}
                 >
@@ -46,7 +34,7 @@ class NavigationBar extends Component {
                 </Button>
 
                 <Button
-                  variant="outline-danger"
+                  variant="danger"
                   className="mr-sm-2"
                   onClick={this.props.handleLogout}
                 >
@@ -55,7 +43,7 @@ class NavigationBar extends Component {
               </div>
             ) : (
               <Button
-                variant="outline-success"
+                variant="success"
                 className="mr-sm-2"
                 onClick={this.props.handleLogin}
               >

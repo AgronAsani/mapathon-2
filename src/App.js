@@ -60,11 +60,12 @@ function App() {
       let poi = pois[i];
       //initialisation for the pin with the content.
       markers.push({
-        key: poi.name,
+        key: poi.id,
         position: [poi.lat, poi.lng],
         content: {
-          title: poi.name,
-          description: poi.description
+          name: poi.name,
+          description: poi.description,
+          poi: poi
         }
       });
     }
@@ -89,12 +90,15 @@ function App() {
             lat: newPOI.lat,
             lng: newPOI.lng,
             group: newPOI.group,
-            image: newPOI.image
+            image: newPOI.image,
+            url: newPOI.url
           })
         }
       );
       let data = await response.json();
       console.log(data);
+      handleChangeMode(MENU_MODES.DEFAULT);
+      handleMenu();
     } catch (error) {}
   };
   if (loading) {

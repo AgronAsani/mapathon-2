@@ -15,7 +15,7 @@ class NavigationBar extends Component {
                 Source Repository
               </Nav.Link>
             </Nav>
-            {this.props.isAuthenticated ? (
+            {this.props.isAuthenticated == true ? (
               <div>
                 <Button
                   variant="warning"
@@ -42,13 +42,15 @@ class NavigationBar extends Component {
                 </Button>
               </div>
             ) : (
-              <Button
-                variant="success"
-                className="mr-sm-2"
-                onClick={this.props.handleLogin}
-              >
-                Login
-              </Button>
+              <div>
+                <Button
+                  variant="success"
+                  className="mr-sm-2"
+                  onClick={this.props.handleLogin}
+                >
+                  Login
+                </Button>
+              </div>
             )}
           </Navbar.Collapse>
         </Navbar>{" "}

@@ -8,10 +8,6 @@ class MenuSlide extends Component {
   handleMenuChange = state => {
     this.props.handleMenuChange(state.isOpen);
   };
-  // handleForm = newPOI => {
-  //   console.log("slide");
-  //   this.props.handleForm(newPOI);
-  // };
   render() {
     return (
       <Menu

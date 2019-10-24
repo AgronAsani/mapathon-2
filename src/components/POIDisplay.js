@@ -4,9 +4,11 @@ class POIDisplay extends Component {
   state = {};
   render() {
     const POIDisplayList = this.props.markers.map(poi => (
-      <POI content={poi.content.poi} fromDisplay={"hey"} />
+      <POI content={poi.content.poi} />
     ));
-    return <div> {this.props.markers == 0 ? "Default" : POIDisplayList} </div>;
+    return (
+      <div> {this.props.markers == 0 ? "Click Get POIs" : POIDisplayList} </div>
+    );
   }
 }
 

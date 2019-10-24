@@ -4,7 +4,8 @@ import "./POI.css";
 export default function POI(props) {
   const { name, description, lat, lng, image, url } = props.content;
   const { Categories, Tags, User, Status } = props.content;
-
+  const very = props.fromDisplay;
+  console.log(very);
   let statusColor;
   if (Status) {
     switch (Status.id) {

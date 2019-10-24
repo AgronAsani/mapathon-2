@@ -144,6 +144,7 @@ export default class MyMap extends Component<{}, State> {
           handleForm={this.handleForm}
           changeMode={this.props.handleChangeMode}
           handleBackClick={this.handleBackClick}
+          markers={this.props.markers}
         />
         <Map
           viewport={this.state.center}

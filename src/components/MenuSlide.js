@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { slide as Menu } from "react-burger-menu";
 import AddForm from "./AddForm";
 import MENU_MODES from "../MenuModes";
+import POIDisplay from "./POIDisplay";
 class MenuSlide extends Component {
   state = {};
   handleMenuChange = state => {
@@ -21,7 +22,7 @@ class MenuSlide extends Component {
       >
         <div>
           {this.props.menuMode == MENU_MODES.DEFAULT ? (
-            "Default"
+            <POIDisplay markers={this.props.markers} />
           ) : (
             <div>
               <AddForm

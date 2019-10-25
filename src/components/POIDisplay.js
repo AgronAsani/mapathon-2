@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import POI from "./POI";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { MdFilterList } from "react-icons/md";
+import POICard from "./POICard";
 
 class POIDisplay extends Component {
   constructor(props) {
@@ -17,7 +18,8 @@ class POIDisplay extends Component {
   render() {
     const POIDisplayList = this.props.markers
       // .filter(poi => poi.content.poi.group == this.props.group)
-      .map(poi => <POI key={poi.key} content={poi.content.poi} />);
+      .map(poi => <POICard key={poi.key} content={poi.content.poi} />);
+
     return (
       <div>
         {this.props.markers == 0 ? (

@@ -22,7 +22,7 @@ class MenuSlide extends Component {
       >
         <div>
           {this.props.menuMode == MENU_MODES.DEFAULT ? (
-            <POIDisplay markers={this.props.markers} />
+            <POIDisplay markers={this.props.markers} group={2} />
           ) : (
             <div>
               <AddForm

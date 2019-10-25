@@ -100,16 +100,18 @@ export default class MyMap extends Component<{}, State> {
       prevState => ({ locationToAdd: this.state.currentPointer }),
       () => this.props.handleChangeMode(MENU_MODES.ADD_POI)
     );
-    this.props.handleMenu();
+    this.props.setMenu(true);
   };
+
   //pass newPOI to App.js and unmount current marker
   handleForm = newPOI => {
     this.props.handleForm(newPOI);
     this.setState(prevState => ({ currentPointer: null }));
   };
+
   // discard Add Form, returns to DEFAULT menu view
   handleBackClick = () => {
-    this.props.handleMenu();
+    this.props.toggleMenu();
     this.props.handleChangeMode(MENU_MODES.DEFAULT);
     this.setState(prevState => ({ currentPointer: null }));
   };
@@ -140,7 +142,7 @@ export default class MyMap extends Component<{}, State> {
         <MenuSlide
           isOpen={this.props.menuState}
           menuMode={this.props.menuMode}
-          handleMenu={this.props.handleMenu}
+          toggleMenu={this.props.toggleMenu}
           handleMenuChange={this.handleMenuChange}
           locationToAdd={this.state.locationToAdd}
           handleForm={this.handleForm}
@@ -149,6 +151,8 @@ export default class MyMap extends Component<{}, State> {
           markers={this.props.markers}
           handleFilterGroup={this.props.handleFilterGroup}
           handleFilterUser={this.props.handleFilterUser}
+          canDeletePOI={this.props.canDeletePOI}
+          handleDeletePOI={this.props.handleDeletePOI}
         />
         <Map
           viewport={this.state.center}
@@ -165,7 +169,7 @@ export default class MyMap extends Component<{}, State> {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           <Control position="topleft">
-            <Button variant="danger" onClick={this.handleSelfLocate}>
+            <Button variant="primary" onClick={this.handleSelfLocate}>
               <div style={{ color: "white" }}>
                 <IoMdLocate size={24} />
               </div>

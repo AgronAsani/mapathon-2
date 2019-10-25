@@ -3,7 +3,7 @@ import POI from "./POI";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { MdFilterList } from "react-icons/md";
 import POICard from "./POICard";
-
+import UserGuide from "./UserGuide";
 class POIDisplay extends Component {
   constructor(props) {
     super(props);
@@ -18,22 +18,36 @@ class POIDisplay extends Component {
   render() {
     const POIDisplayList = this.props.markers
       // .filter(poi => poi.content.poi.group == this.props.group)
-      .map(poi => <POICard key={poi.key} content={poi.content.poi} />);
+      .map(poi => (
+        <POICard
+          key={poi.key}
+          content={poi.content.poi}
+          canDeletePOI={this.props.canDeletePOI}
+          handleDeletePOI={this.props.handleDeletePOI}
+        />
+      ));
 
     return (
       <div>
         {this.props.markers == 0 ? (
-          "Click Get POIs"
+          <UserGuide />
         ) : (
           <div>
-            <Form>
+            <Form className="text-center">
               <fieldset>
+                <Form.Label as="legend" className="ml-1">
+                  <h3>Filter </h3>
+                </Form.Label>
+                <br />
                 <Form.Label as="legend" className="ml-1">
                   Filter by Group
                 </Form.Label>
-
-                <Form.Group as={Row} className="ml-2">
+                <Form.Group
+                  className="mr-2"
+                  style={{ border: 1, borderColor: "black" }}
+                >
                   <Form.Check
+                    inline
                     className="mr-sm-1"
                     type="radio"
                     label="0"
@@ -42,6 +56,7 @@ class POIDisplay extends Component {
                     onClick={() => this.handleRadio(0)}
                   />
                   <Form.Check
+                    inline
                     className="mr-sm-1"
                     type="radio"
                     label="1"
@@ -50,6 +65,7 @@ class POIDisplay extends Component {
                     onClick={() => this.handleRadio(1)}
                   />
                   <Form.Check
+                    inline
                     className="mr-sm-1"
                     type="radio"
                     label="2"
@@ -58,6 +74,7 @@ class POIDisplay extends Component {
                     onClick={() => this.handleRadio(2)}
                   />
                   <Form.Check
+                    inline
                     className="mr-sm-1"
                     type="radio"
                     label="3"
@@ -66,6 +83,7 @@ class POIDisplay extends Component {
                     onClick={() => this.handleRadio(3)}
                   />
                   <Form.Check
+                    inline
                     className="mr-sm-1"
                     type="radio"
                     label="4"
@@ -80,7 +98,9 @@ class POIDisplay extends Component {
                   />
                 </Form.Group>
               </fieldset>
+
               <fieldset>
+                {" "}
                 <Form.Label as="legend" className="ml-1">
                   Get your own POIs
                   <MdFilterList

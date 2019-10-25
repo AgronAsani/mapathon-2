@@ -3,10 +3,42 @@ import { slide as Menu } from "react-burger-menu";
 import AddForm from "./AddForm";
 import MENU_MODES from "../MenuModes";
 import POIDisplay from "./POIDisplay";
+import UserGuide from "./UserGuide";
 class MenuSlide extends Component {
   state = {};
   handleMenuChange = state => {
     this.props.handleMenuChange(state.isOpen);
+  };
+  renderMenuContent = menuMode => {
+    switch (menuMode) {
+      case MENU_MODES.DEFAULT:
+        return (
+          <POIDisplay
+            markers={this.props.markers}
+            group={2}
+            handleFilterGroup={this.props.handleFilterGroup}
+            handleFilterUser={this.props.handleFilterUser}
+            canDeletePOI={this.props.canDeletePOI}
+            handleDeletePOI={this.props.handleDeletePOI}
+          />
+        );
+        break;
+      case MENU_MODES.USER_GUIDE:
+        return <UserGuide />;
+        break;
+      case MENU_MODES.ADD_POI:
+        return (
+          <div>
+            <AddForm
+              locationToAdd={this.props.locationToAdd}
+              handleForm={this.props.handleForm}
+              handleBackClick={this.props.handleBackClick}
+            />
+          </div>
+        );
+      default:
+        return <UserGuide />;
+    }
   };
   render() {
     return (
@@ -17,24 +49,7 @@ class MenuSlide extends Component {
         onStateChange={this.handleMenuChange}
         noOverlay
       >
-        <div>
-          {this.props.menuMode == MENU_MODES.DEFAULT ? (
-            <POIDisplay
-              markers={this.props.markers}
-              group={2}
-              handleFilterGroup={this.props.handleFilterGroup}
-              handleFilterUser={this.props.handleFilterUser}
-            />
-          ) : (
-            <div>
-              <AddForm
-                locationToAdd={this.props.locationToAdd}
-                handleForm={this.props.handleForm}
-                handleBackClick={this.props.handleBackClick}
-              />
-            </div>
-          )}
-        </div>
+        <div>{this.renderMenuContent(this.props.menuMode)}</div>
       </Menu>
     );
   }

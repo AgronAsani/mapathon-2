@@ -3,7 +3,7 @@ export class requestPOI {
   static async updatePOI(id, updatePOI, getTokenSilently, loginWithPopup) {
     try {
       let token = await getTokenSilently();
-      console.log(JSON.stringify(updatePOI));
+      // console.log(JSON.stringify(updatePOI));
       let response = await fetch(
         `${process.env.REACT_APP_SERVER_URL}/poi/` + id,
         {
@@ -29,7 +29,7 @@ export class requestPOI {
   static async addNewPOI(newPOI, getTokenSilently, loginWithPopup) {
     try {
       let token = await getTokenSilently();
-      console.log(JSON.stringify(newPOI));
+      // console.log(JSON.stringify(newPOI));
       let response = await fetch(`${process.env.REACT_APP_SERVER_URL}/poi`, {
         method: "POST",
         body: JSON.stringify(newPOI),

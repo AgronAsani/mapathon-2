@@ -2,10 +2,8 @@ import React from "react";
 import { Button, Card, Col } from "react-bootstrap";
 
 export default function POICard(props) {
-  const { name, description, lat, lng, image, url } = props.content;
+  const { id, name, description, lat, lng, image, url } = props.content;
   const { Categories, Creator, Status } = props.content;
-  const very = props.fromDisplay;
-  console.log(very);
   let statusColor;
   if (Status) {
     switch (Status.id) {
@@ -20,7 +18,6 @@ export default function POICard(props) {
         break;
     }
   }
-  console.log(props.content);
   return (
     <Col>
       <Card style={{ width: "22rem" }}>
@@ -31,6 +28,15 @@ export default function POICard(props) {
           </Card.Title>
           <Card.Text>{description}</Card.Text>
           <Card.Text>{Creator.email}</Card.Text>
+          {props.canDeletePOI && (
+            <Button
+              variant="danger"
+              className="mr-sm-2"
+              onClick={() => props.handleDeletePOI(id)}
+            >
+              Delete
+            </Button>
+          )}
         </Card.Body>
       </Card>
       <br />

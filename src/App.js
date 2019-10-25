@@ -14,6 +14,7 @@ function App() {
   let [pois, setPois] = useState([]);
   let [markers, setMarkers] = useState([]);
   let [prevMarkers, setPrevMarkers] = useState([]);
+  let [canDeletePOI, setCanDeletePOI] = useState(false);
   let {
     user,
     loading,
@@ -31,27 +32,36 @@ function App() {
     e.preventDefault();
     try {
       let token = await getTokenSilently();
+      await handleGetPOI();
     } catch (e) {
       console.error(e);
       await loginWithPopup();
     }
   };
+
   let handleLogout = () => {
     logout();
     setPois([]);
   };
-  let handleMenu = () => {
+  let toggleMenu = () => {
     setMenuState(!menuState);
+  };
+  let setMenu = isOpen => {
+    setMenuState(isOpen);
+  };
+  let handleOpenGuide = () => {
+    setMenuMode(MENU_MODES.USER_GUIDE);
+    setMenu(true);
   };
   let handleGetPOI = async () => {
     // e.preventDefault();
+    setCanDeletePOI(false);
     let pois = await request(
       `${process.env.REACT_APP_SERVER_URL}${endpoints.pois}`,
       getTokenSilently,
       loginWithPopup
     );
     setPois(pois);
-    console.log(pois);
     let markers = [];
     for (let i in pois) {
       let poi = pois[i];
@@ -65,6 +75,7 @@ function App() {
           poi: poi
         }
       });
+      setMenuMode(MENU_MODES.DEFAULT);
     }
     // update all the marker in state
     setMarkers(markers);
@@ -73,32 +84,15 @@ function App() {
   let handleForm = async newPOI => {
     let tokenForm = await getTokenSilently();
     try {
-      let response = await fetch(
-        "https://backend.mapathon.ehealth.hevs.ch/poi",
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${tokenForm}`,
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            name: newPOI.name,
-            description: newPOI.description,
-            lat: newPOI.lat,
-            lng: newPOI.lng,
-            group: newPOI.group,
-            image: newPOI.image,
-            url: newPOI.url
-          })
-        }
+      let result = await requestPOI.addNewPOI(
+        newPOI,
+        getTokenSilently,
+        loginWithPopup
       );
-      let data = await response.json();
-      console.log(data);
-      handleChangeMode(MENU_MODES.DEFAULT);
-      handleMenu();
+      setMenuMode(MENU_MODES.DEFAULT);
     } catch (error) {}
   };
+
   let handleMenuChange = isOpen => {
     setMenuState(isOpen);
   };
@@ -106,8 +100,7 @@ function App() {
     setMenuMode(mode);
   };
   let handleFilterGroup = group => {
-    console.log("group gotten");
-    console.log(group);
+    setCanDeletePOI(false);
     if (prevMarkers && prevMarkers.length > 0) {
       let filteredMarkers = prevMarkers.filter(
         prevMarkers => prevMarkers.content.poi.group == group
@@ -116,13 +109,21 @@ function App() {
     }
   };
   let handleFilterUser = () => {
-    console.log("filter by user");
+    setCanDeletePOI(true);
     if (prevMarkers && prevMarkers.length > 0) {
       let filteredMarkers = prevMarkers.filter(
         prevMarkers => prevMarkers.content.poi.Creator.email == user.email
       );
       setMarkers(filteredMarkers);
     }
+  };
+  let handleDeletePOI = async id => {
+    let result = await requestPOI.deletePOI(
+      id,
+      getTokenSilently,
+      loginWithPopup
+    );
+    handleGetPOI();
   };
   if (loading) {
     return <Loading />;
@@ -132,9 +133,11 @@ function App() {
       <NavigationBar
         handleLogin={handleLogin}
         handleLogout={handleLogout}
-        handleMenu={handleMenu}
+        toggleMenu={toggleMenu}
         handleGetPOI={handleGetPOI}
         isAuthenticated={isAuthenticated}
+        user={user}
+        handleOpenGuide={handleOpenGuide}
       />
       <header className="App-header">
         <MyMap
@@ -143,12 +146,15 @@ function App() {
           menuState={menuState}
           menuMode={menuMode}
           isAuthenticated={isAuthenticated}
-          handleMenu={handleMenu}
+          toggleMenu={toggleMenu}
+          setMenu={setMenu}
           handleMenuChange={handleMenuChange}
           handleForm={handleForm}
           handleChangeMode={handleChangeMode}
           handleFilterGroup={handleFilterGroup}
           handleFilterUser={handleFilterUser}
+          canDeletePOI={canDeletePOI}
+          handleDeletePOI={handleDeletePOI}
         />
       </header>
     </div>

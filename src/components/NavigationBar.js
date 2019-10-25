@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Navbar, Nav, NavDropdown, Button } from "react-bootstrap";
-
+import { IoMdDownload, IoIosLogOut, IoIosLogIn } from "react-icons/io";
 class NavigationBar extends Component {
   state = {};
   render() {
@@ -14,31 +14,33 @@ class NavigationBar extends Component {
               <Nav.Link href="https://github.com/roger-schaer/mapathon">
                 Source Repository
               </Nav.Link>
+              <Nav.Link href={""} onClick={this.props.handleOpenGuide}>
+                Readme
+              </Nav.Link>
             </Nav>
             {this.props.isAuthenticated ? (
               <div>
+                {this.props.user.email}
+                <Button
+                  variant="danger"
+                  className="mr-sm-2 ml-sm-4"
+                  onClick={this.props.handleLogout}
+                >
+                  <IoIosLogOut size={24} />
+                </Button>
                 <Button
                   variant="warning"
                   className="mr-sm-2"
                   onClick={this.props.handleGetPOI}
                 >
-                  Get POIs
+                  <IoMdDownload size={24} />
                 </Button>
-
                 <Button
                   variant="info"
                   className="mr-sm-2"
-                  onClick={this.props.handleMenu}
+                  onClick={this.props.toggleMenu}
                 >
                   Menu
-                </Button>
-
-                <Button
-                  variant="danger"
-                  className="mr-sm-2"
-                  onClick={this.props.handleLogout}
-                >
-                  Logout
                 </Button>
               </div>
             ) : (
@@ -48,7 +50,7 @@ class NavigationBar extends Component {
                   className="mr-sm-2"
                   onClick={this.props.handleLogin}
                 >
-                  Login
+                  <IoIosLogIn size={24} />
                 </Button>
               </div>
             )}

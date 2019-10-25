@@ -10,7 +10,9 @@ class POIDisplay extends Component {
     const POIDisplayList = this.props.markers
       .filter(poi => poi.content.poi.group == this.props.group)
       .map(poi => <POI content={poi.content.poi} fromDisplay={"hey"} />);
-    return <div> {this.props.markers == 0 ? "Default" : POIDisplayList} </div>;
+    return (
+      <div> {this.props.markers == 0 ? "Click Get POIs" : POIDisplayList} </div>
+    );
   }
 }
 

@@ -2,13 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9d99ef1f-6be9-48ac-88ce-0e79a9308b07" name="Default Changelist" comment="1) Modification of MyMap for accept a list of marker (for POI) &#10;2) Add some texte to be more clear and comment.">
-      <change afterPath="$PROJECT_DIR$/env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/env.local" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/sort.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MenuModes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/MenuModes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/MenuSlide.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/MenuSlide.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/MyMap.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/MyMap.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/POI.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/POI.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/NavigationBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NavigationBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/POICard.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/POIDisplay.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/POIDisplay.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/react-auth0-spa.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/react-auth0-spa.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -49,7 +51,7 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="JavaScriptWeakerCompletionTypeGuess" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../WebsiteMilliusMaler" />
+    <property name="last_opened_file_path" value="$USER_HOME$/WebsiteMilliusMaler" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -172,7 +174,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="1) Install Leafleat (yarn add react-leafle)&#10;2) Create component MyMap for have a generic map (MyMap.js)&#10;  2.1) add 2 props (optional)&#10;    2.1.1) latlng for coordinate of the POI and center of the map&#10;    2.1.2) text for the text of the POI&#10;  2.2) add event on click for self-location" />
     <MESSAGE value="1) Modification of MyMap for accept a list of marker (for POI) &#10;2) Add some texte to be more clear and comment." />
-    <option name="LAST_COMMIT_MESSAGE" value="1) Modification of MyMap for accept a list of marker (for POI) &#10;2) Add some texte to be more clear and comment." />
+    <MESSAGE value="sort poi by group" />
+    <option name="LAST_COMMIT_MESSAGE" value="sort poi by group" />
   </component>
   <component name="WindowStateProjectService">
     <state x="601" y="286" width="524" height="502" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1569391972949">

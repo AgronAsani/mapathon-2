@@ -8,10 +8,6 @@ class MenuSlide extends Component {
   handleMenuChange = state => {
     this.props.handleMenuChange(state.isOpen);
   };
-  // handleForm = newPOI => {
-  //   console.log("slide");
-  //   this.props.handleForm(newPOI);
-  // };
   render() {
     return (
       <Menu
@@ -22,7 +18,7 @@ class MenuSlide extends Component {
       >
         <div>
           {this.props.menuMode == MENU_MODES.DEFAULT ? (
-            <POIDisplay markers={this.props.markers} />
+            <POIDisplay markers={this.props.markers} group={2} />
           ) : (
             <div>
               <AddForm

@@ -55,6 +55,7 @@ export default class MyMap extends Component<{}, State> {
   handleMenuChange = isOpen => {
     this.props.handleMenuChange(isOpen);
   };
+  // clicking on any point in map
   handleClick = e => {
     if (this.props.isAuthenticated) {
       this.setState(prevState => ({
@@ -77,11 +78,6 @@ export default class MyMap extends Component<{}, State> {
       }
     }
   };
-
-  onViewportChanged = (viewport: Viewport) => {
-    this.setState({ center: viewport });
-  };
-
   handleLocationFound = (e: Object) => {
     let myVP = {};
     this.setState({
@@ -94,6 +90,10 @@ export default class MyMap extends Component<{}, State> {
       }
     });
   };
+  //Fires when moving map around
+  onViewportChanged = (viewport: Viewport) => {
+    this.setState({ center: viewport });
+  };
 
   handleAddLocation = () => {
     this.setState(
@@ -102,10 +102,12 @@ export default class MyMap extends Component<{}, State> {
     );
     this.props.handleMenu();
   };
+  //pass newPOI to App.js and unmount current marker
   handleForm = newPOI => {
     this.props.handleForm(newPOI);
     this.setState(prevState => ({ currentPointer: null }));
   };
+  // discard Add Form, returns to DEFAULT menu view
   handleBackClick = () => {
     this.props.handleMenu();
     this.props.handleChangeMode(MENU_MODES.DEFAULT);

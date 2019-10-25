@@ -21,10 +21,12 @@ function App() {
     logout,
     isAuthenticated
   } = useAuth0();
-
+  //component stock states : open/closed
   let [menuState, setMenuState] = useState(false);
+  //Menu modes: DEFAULT displays POI list, ADD_POI opens add form
   let [menuMode, setMenuMode] = useState(MENU_MODES.DEFAULT);
-  let handlePOIsClick = async e => {
+
+  let handleLogin = async e => {
     e.preventDefault();
     try {
       let token = await getTokenSilently();
@@ -39,12 +41,6 @@ function App() {
   };
   let handleMenu = () => {
     setMenuState(!menuState);
-  };
-  let handleMenuChange = isOpen => {
-    setMenuState(isOpen);
-  };
-  let handleChangeMode = mode => {
-    setMenuMode(mode);
   };
   let handleGetPOI = async () => {
     // e.preventDefault();
@@ -101,13 +97,19 @@ function App() {
       handleMenu();
     } catch (error) {}
   };
+  let handleMenuChange = isOpen => {
+    setMenuState(isOpen);
+  };
+  let handleChangeMode = mode => {
+    setMenuMode(mode);
+  };
   if (loading) {
     return <Loading />;
   }
   return (
     <div className="App">
       <NavigationBar
-        handleLogin={handlePOIsClick}
+        handleLogin={handleLogin}
         handleLogout={handleLogout}
         handleMenu={handleMenu}
         handleGetPOI={handleGetPOI}
@@ -125,19 +127,6 @@ function App() {
           handleForm={handleForm}
           handleChangeMode={handleChangeMode}
         />
-        {/*pois && pois.length > 0 && (
-          <div>
-            <p> below we can see all the list of POI from BDD</p>
-            <ul className="POI-List">
-              {pois.map(poi => (
-                <li key={poi.id}>
-                  <POI {...poi} />
-                </li>
-              ))}
-            </ul>
-            <NewPoint />
-          </div>
-        )*/}
       </header>
     </div>
   );

@@ -36,6 +36,7 @@ export default function POICard(props) {
         <MDBCardBody>
           <MDBCardTitle>{name}</MDBCardTitle>
           <MDBCardText>{description}</MDBCardText>
+          <MDBCardText>{Categories[0] ? Categories[0].name : null}</MDBCardText>
         </MDBCardBody>
       </MDBCard>
       <br />

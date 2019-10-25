@@ -15,10 +15,16 @@ class MenuSlide extends Component {
         right
         isOpen={this.props.isOpen}
         onStateChange={this.handleMenuChange}
+        noOverlay
       >
         <div>
           {this.props.menuMode == MENU_MODES.DEFAULT ? (
-            <POIDisplay markers={this.props.markers} group={2} />
+            <POIDisplay
+              markers={this.props.markers}
+              group={2}
+              handleFilterGroup={this.props.handleFilterGroup}
+              handleFilterUser={this.props.handleFilterUser}
+            />
           ) : (
             <div>
               <AddForm
@@ -45,7 +51,8 @@ var burgerStyles = {
     top: "36px"
   },
   bmBurgerBars: {
-    background: "#373a47",
+    background: "none",
+    display: "none",
     visibility: "hidden"
   },
   bmBurgerBarsHover: {
@@ -60,7 +67,7 @@ var burgerStyles = {
   },
   bmMenuWrap: {
     position: "fixed",
-    width: "30%",
+    width: "25%",
     height: "100%"
   },
   bmMenu: {

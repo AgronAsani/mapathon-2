@@ -15,7 +15,7 @@ class NavigationBar extends Component {
                 Source Repository
               </Nav.Link>
             </Nav>
-            {this.props.isAuthenticated == true ? (
+            {this.props.isAuthenticated ? (
               <div>
                 <Button
                   variant="warning"

@@ -6,7 +6,6 @@ import requestPOI from "./utils/requestPOI";
 import endpoints from "./endpoints";
 import Loading from "./components/Loading";
 import POI from "./components/POI";
-import NewPoint from "./components/NewPoint";
 import MyMap from "./components/MyMap";
 import NavigationBar from "./components/NavigationBar";
 import MENU_MODES from "./MenuModes";
@@ -14,7 +13,9 @@ import MENU_MODES from "./MenuModes";
 function App() {
   let [pois, setPois] = useState([]);
   let [markers, setMarkers] = useState([]);
+  let [prevMarkers, setPrevMarkers] = useState([]);
   let {
+    user,
     loading,
     loginWithPopup,
     getTokenSilently,
@@ -67,6 +68,7 @@ function App() {
     }
     // update all the marker in state
     setMarkers(markers);
+    setPrevMarkers(markers);
   };
   let handleForm = async newPOI => {
     let tokenForm = await getTokenSilently();
@@ -103,6 +105,25 @@ function App() {
   let handleChangeMode = mode => {
     setMenuMode(mode);
   };
+  let handleFilterGroup = group => {
+    console.log("group gotten");
+    console.log(group);
+    if (prevMarkers && prevMarkers.length > 0) {
+      let filteredMarkers = prevMarkers.filter(
+        prevMarkers => prevMarkers.content.poi.group == group
+      );
+      setMarkers(filteredMarkers);
+    }
+  };
+  let handleFilterUser = () => {
+    console.log("filter by user");
+    if (prevMarkers && prevMarkers.length > 0) {
+      let filteredMarkers = prevMarkers.filter(
+        prevMarkers => prevMarkers.content.poi.Creator.email == user.email
+      );
+      setMarkers(filteredMarkers);
+    }
+  };
   if (loading) {
     return <Loading />;
   }
@@ -126,6 +147,8 @@ function App() {
           handleMenuChange={handleMenuChange}
           handleForm={handleForm}
           handleChangeMode={handleChangeMode}
+          handleFilterGroup={handleFilterGroup}
+          handleFilterUser={handleFilterUser}
         />
       </header>
     </div>

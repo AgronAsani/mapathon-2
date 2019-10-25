@@ -43,19 +43,16 @@ export const Auth0Provider = ({
   }, []);
 
   const loginWithPopup = async (params = {}) => {
-    console.log(`Logging in with popup`);
     setPopupOpen(true);
     try {
       await auth0Client.loginWithPopup(params);
-      console.log(`Logged in with popup`);
+
       const user = await auth0Client.getUser();
       setUser(user);
       setIsAuthenticated(true);
     } catch (error) {
-      console.log(`Error logging in with popup`);
       console.error(error);
     } finally {
-      console.log(`Finished logging in with popup`);
       setPopupOpen(false);
     }
   };

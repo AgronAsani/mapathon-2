@@ -1,6 +1,6 @@
 export class requestPOI {
   //Update some Information for a POI
-  static async updatePOI(id, updatePOI, getTokenSilently, loginWithRedirect) {
+  static async updatePOI(id, updatePOI, getTokenSilently, loginWithPopup) {
     try {
       let token = await getTokenSilently();
       console.log(JSON.stringify(updatePOI));
@@ -26,7 +26,7 @@ export class requestPOI {
   }
 
   //Create a new POI in the Database
-  static async addNewPOI(newPOI, getTokenSilently, loginWithRedirect) {
+  static async addNewPOI(newPOI, getTokenSilently, loginWithPopup) {
     try {
       let token = await getTokenSilently();
       console.log(JSON.stringify(newPOI));
@@ -44,13 +44,13 @@ export class requestPOI {
       return data;
     } catch (e) {
       console.error(e);
-      await loginWithRedirect();
+      await loginWithPopup();
       return null;
     }
   }
 
   //Return all POIs from the Database
-  static async getAllPOI(getTokenSilently, loginWithRedirect) {
+  static async getAllPOI(getTokenSilently, loginWithPopup) {
     try {
       let token = await getTokenSilently();
       let response = await fetch(`${process.env.REACT_APP_SERVER_URL}/poi`, {
@@ -65,11 +65,11 @@ export class requestPOI {
       return data;
     } catch (e) {
       console.error(e);
-      await loginWithRedirect();
+      await loginWithPopup();
     }
   }
   //Get some Information from a POI with the Id as paratmeter
-  static async getPOI(id, getTokenSilently, loginWithRedirect) {
+  static async getPOI(id, getTokenSilently, loginWithPopup) {
     try {
       let token = await getTokenSilently();
       let response = await fetch(
@@ -87,11 +87,11 @@ export class requestPOI {
       return data;
     } catch (e) {
       console.error(e);
-      await loginWithRedirect();
+      await loginWithPopup();
     }
   }
   //Delete a POI in the Database
-  static async deletePOI(id, getTokenSilently, loginWithRedirect) {
+  static async deletePOI(id, getTokenSilently, loginWithPopup) {
     try {
       let token = await getTokenSilently();
       let response = await fetch(
@@ -110,7 +110,7 @@ export class requestPOI {
       return data;
     } catch (e) {
       console.error(e);
-      await loginWithRedirect();
+      await loginWithPopup();
     }
   }
 }

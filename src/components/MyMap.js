@@ -147,6 +147,8 @@ export default class MyMap extends Component<{}, State> {
           changeMode={this.props.handleChangeMode}
           handleBackClick={this.handleBackClick}
           markers={this.props.markers}
+          handleFilterGroup={this.props.handleFilterGroup}
+          handleFilterUser={this.props.handleFilterUser}
         />
         <Map
           viewport={this.state.center}

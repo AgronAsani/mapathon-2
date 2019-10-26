@@ -7,6 +7,9 @@ import Control from "@skyeer/react-leaflet-custom-control";
 import { IoMdLocate } from "react-icons/io";
 import { latLngBounds } from "leaflet";
 import POI from "./POI";
+import POICard from "./POICard";
+import POIDetail from "./POIDetail";
+import POIEdit from "./POIEdit";
 type Position = [number, number];
 type Props = {|
   content: string,
@@ -21,25 +24,61 @@ const DEFAULT_VIEWPORT = {
 type MarkerData = {| ...Props, key: string |};
 
 //what we must have to have a marker
-const MyPopupMarker = ({ content, position }: Props) => (
-  <Marker position={position}>
-    <Popup>
-      <POI content={content.poi} />
-    </Popup>
-  </Marker>
-);
+// const MyPopupMarker = ({ content, position }: Props) => (
+//   <Marker
+//     position={position}
+//     riseOnHover
+//     onMouseOver={e => {
+//       e.target.openPopup();
+//       (e.target);
+//     }}
+//   >
+//     <Popup>
+//       <POI content={content.poi} />
+//     </Popup>
+//   </Marker>
+// );
 //all the pin of the bdd (make a loop).
-const MyMarkersList = ({ markers }: { markers: Array<MarkerData> }) => {
-  const items = markers
-    ? markers.map(({ key, ...props }) => <MyPopupMarker key={key} {...props} />)
+// const MyMarkersList = ({ markers }: { markers: Array<MarkerData> }) => {
+//   const items = markers
+//     ? markers.map(({ key, ...props }) => <MyPopupMarker key={key} {...props} />)
+//     : null;
+//   return <Fragment>{items}</Fragment>;
+// };
+
+type State = {
+  markers: Array<>
+};
+const MarkerList = props => {
+  const items = props
+    ? props.markers.map(marker => (
+        <Marker
+          key={marker.key}
+          position={marker.position}
+          riseOnHover
+          onMouseOver={e => {
+            e.target.openPopup();
+          }}
+        >
+          {" "}
+          <Popup>
+            <POI
+              key={marker.key}
+              content={marker.content.poi}
+              canDeletePOI={props.canDeletePOI}
+              handleDeletePOI={props.handleDeletePOI}
+              handleModalClose={props.handleModalClose}
+              handleModalShow={props.handleModalShow}
+              handleEditModalClose={props.handleEditModalClose}
+              handleEditModalShow={props.handleEditModalShow}
+              user={props.user}
+            />
+          </Popup>
+        </Marker>
+      ))
     : null;
   return <Fragment>{items}</Fragment>;
 };
-
-type State = {
-  markers: Array<MarkerData>
-};
-
 export default class MyMap extends Component<{}, State> {
   state = {
     hasLocation: false,
@@ -48,7 +87,11 @@ export default class MyMap extends Component<{}, State> {
     myLocation: null,
     center: DEFAULT_VIEWPORT,
     zoom: 13,
-    locationToAdd: null
+    locationToAdd: null,
+    modalState: false,
+    modalPOI: null,
+    modalEditState: false,
+    modalEditPOI: null
   };
 
   mapRef = createRef();
@@ -78,6 +121,14 @@ export default class MyMap extends Component<{}, State> {
       }
     }
   };
+  handleShowOnMap = (lat, lng) => {
+    const map = this.mapRef.current;
+    if (map != null) {
+      this.setState({
+        center: { center: { lat, lng }, zoom: 18 }
+      });
+    }
+  };
   handleLocationFound = (e: Object) => {
     let myVP = {};
     this.setState({
@@ -88,6 +139,23 @@ export default class MyMap extends Component<{}, State> {
         center: e.latlng,
         zoom: 18
       }
+    });
+  };
+  handleModalClose = () => {
+    this.setState({ modalState: false });
+  };
+
+  handleModalShow = poi => {
+    this.setState({ modalPOI: poi }, () => {
+      this.setState({ modalState: true });
+    });
+  };
+  handleEditModalClose = () => {
+    this.setState({ modalEditState: false });
+  };
+  handleEditModalShow = poi => {
+    this.setState({ modalEditPOI: poi }, () => {
+      this.setState({ modalEditState: true });
     });
   };
   //Fires when moving map around
@@ -111,15 +179,23 @@ export default class MyMap extends Component<{}, State> {
 
   // discard Add Form, returns to DEFAULT menu view
   handleBackClick = () => {
-    this.props.toggleMenu();
+    // this.props.toggleMenu();
     this.props.handleChangeMode(MENU_MODES.DEFAULT);
     this.setState(prevState => ({ currentPointer: null }));
   };
 
   render() {
     let currentLocationMarker = this.state.currentLocation ? (
-      <Marker position={this.state.currentLocation}>
-        <Popup>{this.props.meText || "You are here"}</Popup>
+      <Marker
+        position={this.state.currentLocation}
+        onMouseOver={e => {
+          e.target.openPopup();
+        }}
+        onMouseOut={e => {
+          e.target.closePopup();
+        }}
+      >
+        <Popup>{"You are here"}</Popup>
       </Marker>
     ) : null;
     let currentPointerMarker =
@@ -128,6 +204,9 @@ export default class MyMap extends Component<{}, State> {
           position={this.state.currentPointer}
           draggable={true}
           autoPan={true}
+          onMouseOver={e => {
+            e.target.openPopup();
+          }}
         >
           <Popup>
             <Button variant="primary" onClick={this.handleAddLocation}>
@@ -153,6 +232,11 @@ export default class MyMap extends Component<{}, State> {
           handleFilterUser={this.props.handleFilterUser}
           canDeletePOI={this.props.canDeletePOI}
           handleDeletePOI={this.props.handleDeletePOI}
+          handleShowOnMap={this.handleShowOnMap}
+          handleModalClose={this.handleModalClose}
+          handleModalShow={this.handleModalShow}
+          handleEditModalClose={this.handleEditModalClose}
+          handleEditModalShow={this.handleEditModalShow}
         />
         <Map
           viewport={this.state.center}
@@ -162,7 +246,6 @@ export default class MyMap extends Component<{}, State> {
           ref={this.mapRef}
           onClick={this.handleClick}
           doubleClickZoom={false}
-          // onMouseUp={this.recenter}
         >
           <TileLayer
             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -177,7 +260,33 @@ export default class MyMap extends Component<{}, State> {
           </Control>
           {currentLocationMarker}
           {currentPointerMarker}
-          <MyMarkersList markers={this.props.markers} />
+          <MarkerList
+            markers={this.props.markers}
+            canDeletePOI={this.props.canDeletePOI}
+            handleDeletePOI={this.props.handleDeletePOI}
+            handleShowOnMap={this.handleShowOnMap}
+            handleModalClose={this.handleModalClose}
+            handleModalShow={this.handleModalShow}
+            handleEditModalClose={this.handleEditModalClose}
+            handleEditModalShow={this.handleEditModalShow}
+            user={this.props.user}
+          />
+          {this.state.modalPOI ? (
+            <POIDetail
+              modalState={this.state.modalState}
+              modalPOI={this.state.modalPOI}
+              handleModalClose={this.handleModalClose}
+              handleModalShow={this.handleModalShow}
+            />
+          ) : null}
+          {this.state.modalEditPOI ? (
+            <POIEdit
+              modalEditState={this.state.modalEditState}
+              modalEditPOI={this.state.modalEditPOI}
+              handleEditModalClose={this.handleEditModalClose}
+              handleEditModalShow={this.handleEditModalShow}
+            />
+          ) : null}
         </Map>
       </div>
     );

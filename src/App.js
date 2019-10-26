@@ -24,7 +24,7 @@ function App() {
     isAuthenticated
   } = useAuth0();
   //component stock states : open/closed
-  let [menuState, setMenuState] = useState(false);
+  let [menuState, setMenuState] = useState(true);
   //Menu modes: DEFAULT displays POI list, ADD_POI opens add form
   let [menuMode, setMenuMode] = useState(MENU_MODES.DEFAULT);
 
@@ -80,6 +80,7 @@ function App() {
     // update all the marker in state
     setMarkers(markers);
     setPrevMarkers(markers);
+    setMenu(true);
   };
   let handleForm = async newPOI => {
     let tokenForm = await getTokenSilently();
@@ -90,6 +91,7 @@ function App() {
         loginWithPopup
       );
       setMenuMode(MENU_MODES.DEFAULT);
+      handleGetPOI();
     } catch (error) {}
   };
 
@@ -142,7 +144,6 @@ function App() {
       <header className="App-header">
         <MyMap
           markers={markers}
-          meText={"you are here"}
           menuState={menuState}
           menuMode={menuMode}
           isAuthenticated={isAuthenticated}

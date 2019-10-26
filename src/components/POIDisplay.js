@@ -24,6 +24,11 @@ class POIDisplay extends Component {
           content={poi.content.poi}
           canDeletePOI={this.props.canDeletePOI}
           handleDeletePOI={this.props.handleDeletePOI}
+          handleShowOnMap={this.props.handleShowOnMap}
+          handleModalClose={this.props.handleModalClose}
+          handleModalShow={this.props.handleModalShow}
+          handleEditModalClose={this.props.handleEditModalClose}
+          handleEditModalShow={this.props.handleEditModalShow}
         />
       ));
 
@@ -102,13 +107,17 @@ class POIDisplay extends Component {
               <fieldset>
                 {" "}
                 <Form.Label as="legend" className="ml-1">
-                  Get your own POIs
-                  <MdFilterList
-                    size={24}
+                  <Button
+                    variant="success"
                     onClick={this.props.handleFilterUser}
-                    style={{ color: "green" }}
-                    className="ml-1.95 float-right"
-                  />
+                  >
+                    Filter your POIs{" "}
+                    <MdFilterList
+                      size={24}
+                      style={{ color: "white" }}
+                      className="ml-2 float-right"
+                    />
+                  </Button>
                 </Form.Label>
               </fieldset>
             </Form>{" "}

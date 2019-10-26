@@ -55,7 +55,7 @@ class AddForm extends Component {
       <React.Fragment>
         <div>
           <form ref="form">
-            <p className="h4 text-center mb-4"> Add a point </p>
+            <p className="h4 text-center mb-4"> Add POI </p>
             Name:{" "}
             <input
               id="name"

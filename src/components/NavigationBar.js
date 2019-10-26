@@ -15,7 +15,7 @@ class NavigationBar extends Component {
                 Source Repository
               </Nav.Link>
               <Nav.Link href={""} onClick={this.props.handleOpenGuide}>
-                Readme
+                User Guide
               </Nav.Link>
             </Nav>
             {this.props.isAuthenticated ? (

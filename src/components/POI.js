@@ -1,6 +1,8 @@
 import React from "react";
 import "./POI.css";
-
+import { IoIosTrash, IoIosInformationCircleOutline } from "react-icons/io";
+import { MdModeEdit } from "react-icons/md";
+import { Button, Row } from "react-bootstrap";
 export default function POI(props) {
   const { name, description, lat, lng, image, url } = props.content;
   const { Categories, Tags, User, Status } = props.content;
@@ -18,27 +20,32 @@ export default function POI(props) {
         break;
     }
   }
-
+  console.log(props);
   return (
     <div className="poi" style={{ borderColor: statusColor }}>
-      {Status && (
+      {/* {Status && (
         <span className="status" style={{ color: statusColor }}>
           <small>{Status.name}</small>
         </span>
-      )}
+      )} */}
       {Categories && Categories.length > 0 && (
         <div className="categories">
           {Categories.map(category => (
             <span className="category" key={category.id}>
               {category.image && (
-                <img className="category-image" src={category.image} />
+                <img
+                  className="category-image"
+                  src={category.image}
+                  style={{ width: 24, height: 24 }}
+                />
               )}
               <small> {category.name}</small>
             </span>
           ))}
         </div>
       )}
-      <h3>
+      <br />
+      <h4>
         {url ? (
           <a href={url} target="_blank" className="App-link">
             {name}
@@ -46,16 +53,20 @@ export default function POI(props) {
         ) : (
           <span>{name}</span>
         )}
-      </h3>
+      </h4>
+      <br />
       {image && (
         <img
-          className="poi-image"
+          className="img-fluid"
           alt={name}
           src={image}
           style={{ width: "100%" }}
         />
       )}
+      <br />
+      <br />
       <section>{description}</section>
+      <br />
       {Tags && Tags.length > 0 && (
         <>
           <hr />
@@ -69,12 +80,57 @@ export default function POI(props) {
                 {tag.image && (
                   <img className="category-image" src={tag.image} />
                 )}
-                <small> {tag.name} : je suis un texte en dur</small>
+                <small> {tag.name}</small>
               </span>
             ))}
           </div>
         </>
       )}
+      <div as={Row}>
+        {/* <Button variant="success" size="sm" className="mr-sm-1">
+          <IoIosInformationCircleOutline
+            size={17}
+            onClick={() => {
+              props.handleModalShow(props.content);
+            }}
+          />
+        </Button> */}
+
+        <span className="mr-sm-1" style={{ color: "dodgerblue" }}>
+          <a
+            href="#"
+            onClick={() => {
+              props.handleModalShow(props.content);
+            }}
+          >
+            Details
+          </a>
+        </span>
+        <br />
+        <br />
+        {props.canDeletePOI && (
+          <div>
+            <Button
+              variant="danger"
+              onClick={() => props.handleDeletePOI(props.content.id)}
+              size="sm"
+              className="mr-1"
+            >
+              <IoIosTrash size={17} />
+            </Button>
+            <Button
+              variant="warning"
+              onClick={() => {
+                props.handleEditModalShow(props.content);
+              }}
+              size="sm"
+              className="mr-1"
+            >
+              <MdModeEdit size={17} />
+            </Button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

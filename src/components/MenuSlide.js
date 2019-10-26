@@ -20,6 +20,11 @@ class MenuSlide extends Component {
             handleFilterUser={this.props.handleFilterUser}
             canDeletePOI={this.props.canDeletePOI}
             handleDeletePOI={this.props.handleDeletePOI}
+            handleShowOnMap={this.props.handleShowOnMap}
+            handleModalClose={this.props.handleModalClose}
+            handleModalShow={this.props.handleModalShow}
+            handleEditModalClose={this.props.handleEditModalClose}
+            handleEditModalShow={this.props.handleEditModalShow}
           />
         );
         break;

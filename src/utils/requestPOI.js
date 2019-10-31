@@ -5,15 +5,40 @@ export class requestPOI {
       let token = await getTokenSilently();
       // console.log(JSON.stringify(updatePOI));
       let response = await fetch(
-        `${process.env.REACT_APP_SERVER_URL}/poi/` + id,
-        {
-          method: "PATCH",
-          body: JSON.stringify(updatePOI),
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`
+          `${process.env.REACT_APP_SERVER_URL}/poi/` + id,
+          {
+            method: "PATCH",
+            body: JSON.stringify(updatePOI),
+            headers: {
+              Accept: "application/json",
+              Authorization: `Bearer ${token}`
+            }
           }
-        }
+      );
+
+      let data = await response.json();
+      return data;
+    } catch (e) {
+      console.error(e);
+      //await loginWithRedirect();
+      return null;
+    }
+  }
+
+  static async updatePOICategory(id, category, getTokenSilently, loginWithPopup) {
+    try {
+      let token = await getTokenSilently();
+      // console.log(JSON.stringify(updatePOI));
+      let response = await fetch(
+          `${process.env.REACT_APP_SERVER_URL}/poi/` + id + `/category`,
+          {
+            method: "PATCH",
+            body: JSON.stringify(category),
+            headers: {
+              Accept: "application/json",
+              Authorization: `Bearer ${token}`
+            }
+          }
       );
 
       let data = await response.json();

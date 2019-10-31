@@ -38,6 +38,7 @@ class MenuSlide extends Component {
               locationToAdd={this.props.locationToAdd}
               handleForm={this.props.handleForm}
               handleBackClick={this.props.handleBackClick}
+              categories={this.props.categories}
             />
           </div>
         );

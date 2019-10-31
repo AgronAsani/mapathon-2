@@ -24,7 +24,10 @@ export default function POICard(props) {
         break;
     }
   }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9a8df8e50366d0eed91b781eacddc1521cdcec26
   return (
     <Col>
       <Card style={{ width: "22rem" }}>

@@ -1,6 +1,6 @@
 import React, { Component, createRef, Fragment, useState } from "react";
 import MENU_MODES from "../MenuModes";
-import { Map, TileLayer, Marker, Popup } from "react-leaflet";
+import {Map, TileLayer, Marker, Popup, ZoomControl} from "react-leaflet";
 import { Button } from "react-bootstrap";
 import MenuSlide from "./MenuSlide";
 import Control from "@skyeer/react-leaflet-custom-control";
@@ -10,6 +10,8 @@ import POI from "./POI";
 import POICard from "./POICard";
 import POIDetail from "./POIDetail";
 import POIEdit from "./POIEdit";
+import L from 'leaflet'
+
 type Position = [number, number];
 type Props = {|
   content: string,
@@ -51,9 +53,10 @@ type State = {
 };
 const MarkerList = props => {
   const items = props
-    ? props.markers.map(marker => (
+    ? props.markers.map(marker =>(
         <Marker
           key={marker.key}
+          icon={marker.content.icon || null}
           position={marker.position}
           riseOnHover
           onMouseOver={e => {
@@ -91,10 +94,10 @@ export default class MyMap extends Component<{}, State> {
     modalState: false,
     modalPOI: null,
     modalEditState: false,
-    modalEditPOI: null
+    modalEditPOI: null,
+    mapRef: createRef()
   };
 
-  mapRef = createRef();
   handleMenuChange = isOpen => {
     this.props.handleMenuChange(isOpen);
   };
@@ -104,17 +107,18 @@ export default class MyMap extends Component<{}, State> {
       this.setState(prevState => ({
         currentPointer: e.latlng
       }));
+      this.handleAddLocation();
     }
   };
   handleSelfLocate = () => {
-    const map = this.mapRef.current;
+    const map = this.state.mapRef.current;
     if (map != null) {
       if (this.state.myLocation != null) {
         this.setState({
           center: { center: this.state.myLocation, zoom: 18 }
         });
       } else {
-        const map = this.mapRef.current;
+        const map = this.state.mapRef.current;
         if (map != null) {
           map.leafletElement.locate();
         }
@@ -122,7 +126,7 @@ export default class MyMap extends Component<{}, State> {
     }
   };
   handleShowOnMap = (lat, lng) => {
-    const map = this.mapRef.current;
+    const map = this.state.mapRef.current;
     if (map != null) {
       this.setState({
         center: { center: { lat, lng }, zoom: 18 }
@@ -141,6 +145,7 @@ export default class MyMap extends Component<{}, State> {
       }
     });
   };
+
   handleModalClose = () => {
     this.setState({ modalState: false });
   };
@@ -215,8 +220,8 @@ export default class MyMap extends Component<{}, State> {
           </Popup>
         </Marker>
       ) : null;
-
     return (
+
       <div>
         <MenuSlide
           isOpen={this.props.menuState}
@@ -224,6 +229,7 @@ export default class MyMap extends Component<{}, State> {
           toggleMenu={this.props.toggleMenu}
           handleMenuChange={this.handleMenuChange}
           locationToAdd={this.state.locationToAdd}
+          categories={this.props.categories}
           handleForm={this.handleForm}
           changeMode={this.props.handleChangeMode}
           handleBackClick={this.handleBackClick}
@@ -243,11 +249,14 @@ export default class MyMap extends Component<{}, State> {
           onViewportChanged={this.onViewportChanged}
           onLocationfound={this.handleLocationFound}
           zoom={this.state.zoom}
-          ref={this.mapRef}
+          ref={this.state.mapRef}
           onClick={this.handleClick}
           doubleClickZoom={false}
+          zoomControl={true}
         >
           <TileLayer
+              maxZoom={19 /* we need both to work*/ }
+              minZoom={1}
             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />

@@ -20,7 +20,10 @@ export default function POI(props) {
         break;
     }
   }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9a8df8e50366d0eed91b781eacddc1521cdcec26
   return (
     <div className="poi" style={{ borderColor: statusColor }}>
       {/* {Status && (

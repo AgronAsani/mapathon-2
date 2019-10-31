@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import { useAuth0 } from "./react-auth0-spa";
 import request from "./utils/request";
@@ -38,6 +38,9 @@ function App() {
       await loginWithPopup();
     }
   };
+  useEffect(() => {
+    handleGetPOI();
+  }, [isAuthenticated]);
 
   let handleLogout = () => {
     logout();

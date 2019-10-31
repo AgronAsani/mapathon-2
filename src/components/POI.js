@@ -20,7 +20,7 @@ export default function POI(props) {
         break;
     }
   }
-  console.log(props);
+
   return (
     <div className="poi" style={{ borderColor: statusColor }}>
       {/* {Status && (

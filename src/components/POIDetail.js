@@ -4,7 +4,7 @@ import blank from "../assets/blank.png";
 class POIDetail extends Component {
   state = {};
   handleDetailClick = state => {
-    console.log("1");
+
     this.props.handleDetailClick(state);
   };
   render() {
@@ -36,7 +36,7 @@ class POIDetail extends Component {
           break;
       }
     }
-    console.log(this.props);
+
     return (
       <Modal
         show={this.props.modalState}

@@ -20,7 +20,7 @@ export class requestPOI {
       return data;
     } catch (e) {
       console.error(e);
-      //await loginWithRedirect();
+      await loginWithPopup();
       return null;
     }
   }

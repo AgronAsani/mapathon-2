@@ -41,9 +41,9 @@ function App() {
       await loginWithPopup();
     }
   };
-  useEffect(() => {
-    handleGetPOI();
-  }, [isAuthenticated]);
+  // useEffect(() => {
+  //   handleGetPOI();
+  // }, [isAuthenticated]);
 
   let handleLogout = () => {
     logout();
@@ -63,9 +63,9 @@ function App() {
     // e.preventDefault();
     setCanDeletePOI(false);
     let pois = await request(
-        `${process.env.REACT_APP_SERVER_URL}${endpoints.pois}`,
-        getTokenSilently,
-        loginWithPopup
+      `${process.env.REACT_APP_SERVER_URL}${endpoints.pois}`,
+      getTokenSilently,
+      loginWithPopup
     );
     setPois(pois);
     let markers = [];
@@ -108,9 +108,9 @@ function App() {
 
   let handleGetCategory = async () => {
     let categories = await request(
-        `${process.env.REACT_APP_SERVER_URL}${endpoints.categories}`,
-        getTokenSilently,
-        loginWithPopup
+      `${process.env.REACT_APP_SERVER_URL}${endpoints.categories}`,
+      getTokenSilently,
+      loginWithPopup
     );
     setCategories(categories);
     console.log(categories);
@@ -121,15 +121,25 @@ function App() {
     try {
       let result = await requestPOI.addNewPOI(
         newPOI,
-          getTokenSilently,
+        getTokenSilently,
         loginWithPopup
       );
-      if(result && result.id && newPOI.categories && newPOI.categories.length > 0){
+      if (
+        result &&
+        result.id &&
+        newPOI.categories &&
+        newPOI.categories.length > 0
+      ) {
         let cat = newPOI.categories.map(myCat => myCat.id);
         console.log(cat);
         console.log(result.id);
         console.log(JSON.stringify(cat));
-        let result2 = await requestPOI.updatePOICategory(result.id,cat,getTokenSilently, loginWithPopup);
+        let result2 = await requestPOI.updatePOICategory(
+          result.id,
+          cat,
+          getTokenSilently,
+          loginWithPopup
+        );
         console.log(result2);
       }
       setMenuMode(MENU_MODES.DEFAULT);

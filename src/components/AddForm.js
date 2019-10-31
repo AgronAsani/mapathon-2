@@ -1,11 +1,20 @@
 import React, { Component } from "react";
 import { Form, Button } from "react-bootstrap";
+import Select from '@material-ui/core/Select';
+import Chip from '@material-ui/core/Chip';
+import FormControl from '@material-ui/core/FormControl';
 import MENU_MODES from "../MenuModes";
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
 
 class AddForm extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
+      Category: this.props.categories || [],
+      myCategory : [],
       newPOI: {
         name: "",
         description: "",
@@ -17,7 +26,10 @@ class AddForm extends Component {
         lng: this.props.locationToAdd == null ? 0 : this.props.locationToAdd.lng
       }
     };
+    console.log("JPP");
+    console.log(this.props.categories);
   }
+
 
   inputFieldValueChanged = event => {
     this.setState({
@@ -39,10 +51,11 @@ class AddForm extends Component {
           image: this.state.newPOI.image,
           url: this.state.newPOI.url,
           lat: this.props.locationToAdd.lat,
-          lng: this.props.locationToAdd.lng
+          lng: this.props.locationToAdd.lng,
+          categories : this.state.myCategory
         }
       }),
-      () => this.props.handleForm(this.state.newPOI)
+      data => this.props.handleForm(this.state.newPOI)
     );
     this.refs.form.reset();
   };
@@ -50,6 +63,14 @@ class AddForm extends Component {
     event.preventDefault();
     this.props.handleBackClick();
   };
+
+  handleChange = event => {
+    this.setState({
+      myCategory:event.target.value
+    });
+    console.log(event);
+  };
+
   render() {
     return (
       <React.Fragment>
@@ -63,6 +84,31 @@ class AddForm extends Component {
               onChange={this.inputFieldValueChanged}
               className="form-control"
             />
+            <br />
+            Categories :{" "}
+            <FormControl >
+              <Select
+                  labelId="demo-mutiple-chip-label"
+                  id="demo-mutiple-chip"
+                  multiple
+                  value={this.state.myCategory}
+                  onChange={this.handleChange}
+                  input={<Input id="select-multiple-chip" />}
+                  renderValue={selected => (
+                      <div >
+                        {selected.map(cat => (
+                            <Chip key={cat.id} label={cat.name} />
+                        ))}
+                      </div>
+                  )}
+              >
+                {this.state.Category.map(cat => (
+                    <MenuItem key={cat.id} value={cat} >
+                      {cat.name}
+                    </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
             <br />
             Group:{" "}
             <input

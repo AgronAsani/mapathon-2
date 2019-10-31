@@ -4,7 +4,6 @@ import { Modal, Button } from "react-bootstrap";
 class POIEdit extends Component {
   state = {};
   handleDetailClick = state => {
-    console.log("1");
     this.props.handleDetailClick(state);
   };
   render() {
@@ -37,7 +36,6 @@ class POIEdit extends Component {
       }
     }
 
-    console.log(this.props);
     return (
       <Modal
         show={this.props.modalEditState}

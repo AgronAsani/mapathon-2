@@ -26,8 +26,6 @@ class AddForm extends Component {
         lng: this.props.locationToAdd == null ? 0 : this.props.locationToAdd.lng
       }
     };
-    console.log("JPP");
-    console.log(this.props.categories);
   }
 
 
@@ -68,7 +66,6 @@ class AddForm extends Component {
     this.setState({
       myCategory:event.target.value
     });
-    console.log(event);
   };
 
   render() {

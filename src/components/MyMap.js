@@ -59,11 +59,7 @@ const MarkerList = props => {
           icon={marker.content.icon || null}
           position={marker.position}
           riseOnHover
-          onMouseOver={e => {
-            e.target.openPopup();
-          }}
         >
-          {" "}
           <Popup>
             <POI
               key={marker.key}
@@ -95,7 +91,8 @@ export default class MyMap extends Component<{}, State> {
     modalPOI: null,
     modalEditState: false,
     modalEditPOI: null,
-    mapRef: createRef()
+    mapRef: createRef(),
+    onShowPopUp:false
   };
 
   handleMenuChange = isOpen => {
@@ -192,12 +189,15 @@ export default class MyMap extends Component<{}, State> {
   render() {
     let currentLocationMarker = this.state.currentLocation ? (
       <Marker
+          icon = {new L.Icon({
+            iconUrl: require('../assets/me-marker.png'),
+            iconAnchor: [18, 40],
+            popupAnchor: [0, -35],
+            iconSize: [36, 40]
+          })}
         position={this.state.currentLocation}
         onMouseOver={e => {
           e.target.openPopup();
-        }}
-        onMouseOut={e => {
-          e.target.closePopup();
         }}
       >
         <Popup>{"You are here"}</Popup>
@@ -212,6 +212,13 @@ export default class MyMap extends Component<{}, State> {
           onMouseOver={e => {
             e.target.openPopup();
           }}
+
+          icon = {new L.Icon({
+            iconUrl: require('../assets/add-marker.png'),
+            iconAnchor: [13, 40],
+            popupAnchor: [0, -35],
+            iconSize: [26, 40]
+          })}
         >
           <Popup>
             <Button variant="primary" onClick={this.handleAddLocation}>
@@ -250,9 +257,11 @@ export default class MyMap extends Component<{}, State> {
           onLocationfound={this.handleLocationFound}
           zoom={this.state.zoom}
           ref={this.state.mapRef}
-          onClick={this.handleClick}
+          onDblClick={this.handleClick}
           doubleClickZoom={false}
           zoomControl={true}
+          onMove={e=>{
+              e.target.closePopup();}}
         >
           <TileLayer
               maxZoom={19 /* we need both to work*/ }

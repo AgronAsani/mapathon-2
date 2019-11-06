@@ -25,9 +25,11 @@ export class requestPOI {
     }
   }
 
-  static async updatePOICategory(id, category, getTokenSilently, loginWithPopup) {
+  static async updatePOICategory(id, category, getTokenSilently, loginWithRedirect) {
     try {
       let token = await getTokenSilently();
+      console.log(JSON.stringify(`${process.env.REACT_APP_SERVER_URL}/poi/` + id + `/category`));
+      console.log(JSON.stringify(category));
       // console.log(JSON.stringify(updatePOI));
       let response = await fetch(
           `${process.env.REACT_APP_SERVER_URL}/poi/` + id + `/category`,
@@ -36,16 +38,16 @@ export class requestPOI {
             body: JSON.stringify(category),
             headers: {
               Accept: "application/json",
+              "Content-Type": "application/json",
               Authorization: `Bearer ${token}`
             }
           }
       );
 
-      let data = await response.json();
-      return data;
+      return await response.json();
     } catch (e) {
       console.error(e);
-      await loginWithPopup();
+      await loginWithRedirect;
       return null;
     }
   }
@@ -65,8 +67,7 @@ export class requestPOI {
         }
       });
 
-      let data = await response.json();
-      return data;
+      return await response.json();
     } catch (e) {
       console.error(e);
       await loginWithPopup();
@@ -108,8 +109,7 @@ export class requestPOI {
         }
       );
 
-      let data = await response.json();
-      return data;
+      return await response.json();
     } catch (e) {
       console.error(e);
       await loginWithPopup();

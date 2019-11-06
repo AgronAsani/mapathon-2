@@ -23,7 +23,8 @@ function App() {
     loginWithPopup,
     getTokenSilently,
     logout,
-    isAuthenticated
+    isAuthenticated,
+    loginWithRedirect
   } = useAuth0();
   //component stock states : open/closed
   let [menuState, setMenuState] = useState(true);
@@ -75,9 +76,9 @@ function App() {
         size: [26, 40],
         url: require("./assets/default-marker.png")
       };
-      if (poi.Categories && poi.Categories[0]) {
-        icTemp.size = [36, 40];
-        icTemp.url = poi.Categories[0].image;
+      if (poi.Categories && poi.Categories[0] && poi.Categories[0].image) {
+          icTemp.size = [36, 40];
+          icTemp.url = poi.Categories[0].image;
       }
       let icon = new L.Icon({
         iconUrl: icTemp.url,
@@ -138,7 +139,7 @@ function App() {
           result.id,
           cat,
           getTokenSilently,
-          loginWithPopup
+            loginWithRedirect
         );
         console.log(result2);
       }

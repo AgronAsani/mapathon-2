@@ -11,6 +11,7 @@ export class requestPOI {
             body: JSON.stringify(updatePOI),
             headers: {
               Accept: "application/json",
+                "Content-Type": "application/json",
               Authorization: `Bearer ${token}`
             }
           }
@@ -138,5 +139,29 @@ export class requestPOI {
       await loginWithPopup();
     }
   }
+    static async addNewCategory(newCategory, getTokenSilently, loginWithPopup) {
+        try {
+            let token = await getTokenSilently();
+            // console.log(JSON.stringify(newPOI));
+            let response = await fetch(`${process.env.REACT_APP_SERVER_URL}/category`, {
+                method: "POST",
+                body: JSON.stringify(newCategory),
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            return await response.json();
+        } catch (e) {
+            console.error(e);
+            await loginWithPopup();
+            return null;
+        }
+    }
 }
+
+
+
+
 export default requestPOI;

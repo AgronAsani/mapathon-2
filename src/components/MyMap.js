@@ -1,6 +1,6 @@
 import React, { Component, createRef, Fragment, useState } from "react";
 import MENU_MODES from "../MenuModes";
-import {Map, TileLayer, Marker, Popup, ZoomControl} from "react-leaflet";
+import { Map, TileLayer, Marker, Popup, ZoomControl } from "react-leaflet";
 import { Button } from "react-bootstrap";
 import MenuSlide from "./MenuSlide";
 import Control from "@skyeer/react-leaflet-custom-control";
@@ -10,9 +10,9 @@ import POI from "./POI";
 import POICard from "./POICard";
 import POIDetail from "./POIDetail";
 import POIEdit from "./POIEdit";
-import L from 'leaflet'
-import GPX from 'leaflet-gpx'
-import { AntPath, antPath } from 'leaflet-ant-path'
+import L from "leaflet";
+import GPX from "leaflet-gpx";
+import { AntPath, antPath } from "leaflet-ant-path";
 import requestPOI from "../utils/requestPOI";
 
 type Position = [number, number];
@@ -56,12 +56,13 @@ type State = {
 };
 const MarkerList = props => {
   const items = props
-    ? props.markers.map(marker =>(
+    ? props.markers.map(marker => (
         <Marker
           key={marker.key}
           icon={marker.content.icon || null}
           position={marker.position}
           riseOnHover
+          onMouseOver={e => e.target.openPopup()}
         >
           <Popup>
             <POI
@@ -96,8 +97,8 @@ export default class MyMap extends Component<{}, State> {
     modalEditState: false,
     modalEditPOI: null,
     mapRef: createRef(),
-    onShowPopUp:false,
-    itinary:[]
+    onShowPopUp: false,
+    itinary: []
   };
 
   handleMenuChange = isOpen => {
@@ -158,7 +159,7 @@ export default class MyMap extends Component<{}, State> {
     });
   };
   handleEditModalClose = () => {
-    this.setState({ modalEditState: false });
+    this.setState({ modalEditState: false, modalEditPOI: null });
   };
   handleEditModalShow = poi => {
     this.setState({ modalEditPOI: poi }, () => {
@@ -256,12 +257,14 @@ export default class MyMap extends Component<{}, State> {
   render() {
     let currentLocationMarker = this.state.currentLocation ? (
       <Marker
-          icon = {new L.Icon({
-            iconUrl: require('../assets/me-marker.png'),
+        icon={
+          new L.Icon({
+            iconUrl: require("../assets/me-marker.png"),
             iconAnchor: [18, 40],
             popupAnchor: [0, -35],
             iconSize: [36, 40]
-          })}
+          })
+        }
         position={this.state.currentLocation}
         onMouseOver={e => {
           e.target.openPopup();
@@ -276,15 +279,15 @@ export default class MyMap extends Component<{}, State> {
           position={this.state.currentPointer}
           draggable={true}
           autoPan={true}
-          onMouseOver={e => {
-          }}
-
-          icon = {new L.Icon({
-            iconUrl: require('../assets/add-marker.png'),
-            iconAnchor: [13, 40],
-            popupAnchor: [0, -35],
-            iconSize: [26, 40]
-          })}
+          onMouseOver={e => {}}
+          icon={
+            new L.Icon({
+              iconUrl: require("../assets/add-marker.png"),
+              iconAnchor: [13, 40],
+              popupAnchor: [0, -35],
+              iconSize: [26, 40]
+            })
+          }
         >
           <Popup>
             <Button variant="primary" onClick={this.handleAddLocation}>
@@ -325,14 +328,13 @@ export default class MyMap extends Component<{}, State> {
           onDblClick={this.handleClick}
           doubleClickZoom={false}
           zoomControl={true}
-          onMove={e=>{
-              e.target.closePopup();
+          onMove={e => {
+            e.target.closePopup();
           }}
         >
-
           <TileLayer
-              maxZoom={19 /* we need both to work*/ }
-              minZoom={1}
+            maxZoom={19 /* we need both to work*/}
+            minZoom={1}
             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
@@ -370,6 +372,7 @@ export default class MyMap extends Component<{}, State> {
               modalEditPOI={this.state.modalEditPOI}
               handleEditModalClose={this.handleEditModalClose}
               handleEditModalShow={this.handleEditModalShow}
+              handleEditForm={this.props.handleEditForm}
             />
           ) : null}
         </Map>

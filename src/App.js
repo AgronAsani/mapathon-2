@@ -77,8 +77,8 @@ function App() {
         url: require("./assets/default-marker.png")
       };
       if (poi.Categories && poi.Categories[0] && poi.Categories[0].image) {
-          icTemp.size = [36, 40];
-          icTemp.url = poi.Categories[0].image;
+        icTemp.size = [36, 40];
+        icTemp.url = poi.Categories[0].image;
       }
       let icon = new L.Icon({
         iconUrl: icTemp.url,
@@ -115,7 +115,16 @@ function App() {
     );
     setCategories(categories);
   };
-
+  let handleEditForm = async newContent => {
+    let result = await requestPOI.updatePOI(
+      newContent.poiId,
+      newContent.newPOI,
+      getTokenSilently,
+      loginWithPopup
+    );
+    setMenuMode(MENU_MODES.DEFAULT);
+    handleGetPOI();
+  };
   let handleForm = async newPOI => {
     let tokenForm = await getTokenSilently();
     try {
@@ -138,7 +147,7 @@ function App() {
           result.id,
           cat,
           getTokenSilently,
-            loginWithRedirect
+          loginWithRedirect
         );
         console.log(result2);
       }
@@ -213,6 +222,7 @@ function App() {
           handleFilterUser={handleFilterUser}
           canDeletePOI={canDeletePOI}
           handleDeletePOI={handleDeletePOI}
+          handleEditForm={handleEditForm}
         />
       </header>
     </div>

@@ -3,6 +3,7 @@ import "./POI.css";
 import { IoIosTrash, IoIosInformationCircleOutline } from "react-icons/io";
 import { MdModeEdit } from "react-icons/md";
 import { Button, Row } from "react-bootstrap";
+
 export default function POI(props) {
   const { name, description, lat, lng, image, url } = props.content;
   const { Categories, Tags, User, Status } = props.content;
@@ -64,7 +65,7 @@ export default function POI(props) {
       )}
       <br />
       <br />
-      <section>{description}</section>
+        <section>{description.length > 300 ? description.slice(0,300)+" (...)":description}</section>
       <br />
       {Tags && Tags.length > 0 && (
         <>
@@ -79,7 +80,7 @@ export default function POI(props) {
                 {tag.image && (
                   <img className="category-image" src={tag.image} />
                 )}
-                <small> {tag.name}</small>
+                <small>{tag.name}</small>
               </span>
             ))}
           </div>

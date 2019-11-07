@@ -114,7 +114,6 @@ function App() {
       loginWithPopup
     );
     setCategories(categories);
-    console.log(categories);
   };
 
   let handleForm = async newPOI => {

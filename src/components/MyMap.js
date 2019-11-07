@@ -11,6 +11,9 @@ import POICard from "./POICard";
 import POIDetail from "./POIDetail";
 import POIEdit from "./POIEdit";
 import L from 'leaflet'
+import GPX from 'leaflet-gpx'
+import { AntPath, antPath } from 'leaflet-ant-path'
+import requestPOI from "../utils/requestPOI";
 
 type Position = [number, number];
 type Props = {|
@@ -70,6 +73,7 @@ const MarkerList = props => {
               handleModalShow={props.handleModalShow}
               handleEditModalClose={props.handleEditModalClose}
               handleEditModalShow={props.handleEditModalShow}
+              clickRoute={props.clickRoute}
               user={props.user}
             />
           </Popup>
@@ -92,7 +96,8 @@ export default class MyMap extends Component<{}, State> {
     modalEditState: false,
     modalEditPOI: null,
     mapRef: createRef(),
-    onShowPopUp:false
+    onShowPopUp:false,
+    itinary:[]
   };
 
   handleMenuChange = isOpen => {
@@ -178,7 +183,69 @@ export default class MyMap extends Component<{}, State> {
     this.props.handleForm(newPOI);
     this.setState(prevState => ({ currentPointer: null }));
   };
+  /*
+// add to 347 clickRoute={this.destinationFinal} and define this.state.theMap to ref the map
+  destinationFinal = (content) =>{
+    if(this.state.itinary.length === 0) {
+      this.state.itinary.push(this.state.currentLocation);
+    }
+    if(!this.state.itinary.includes(content))
+      this.state.itinary.push(content);
+    let response = requestPOI.getRoute(this.state.itinary);
+    response.then(r => {
+      if(r.route && r.route.shape && r.route.shape.shapePoints) {
+        let route = [];
+        let rTemp = r.route.shape.shapePoints;
+        for (let i in rTemp) {
+          if (rTemp[i]) {
+            if (i % 2 === 0) {
+              route[i / 2] = [rTemp[i]];
+            } else {
+              route[(i - 1) / 2].push(rTemp[i]);
+            }
+          }
+        }
+        console.log(rTemp.length);
+        console.log(route);
 
+        const path = antPath(route, {
+          "delay": 2000,
+          "dashArray": [
+            10,
+            20
+          ],
+          "weight": 5,
+          "color": "#0000FF",
+          "pulseColor": "#FFFFFF",
+          "paused": false,
+          "reverse": false,
+          "hardwareAccelerated": true
+        });
+        //path.addTo(this.state.mapRef.current);
+        if (this.state.oldPath)
+          this.state.theMap.removeLayer(this.state.oldPath);
+        this.state.theMap.addLayer(path);
+        this.setState({oldPath: path});
+      }
+      else{
+        if(this.state.itinary) {
+          let index = this.state.itinary.indexOf(content);
+          if(index >= 0)
+            this.state.itinary.splice(index,1);
+          console.log(this.state.itinary)
+        }
+      }
+    });
+  }
+  // add this to POI.js
+   <Button
+            onClick={() => {
+                props.clickRoute(props.content);
+            }}
+            size="sm"
+            className="mr-1"
+        > add to itinary </Button>
+    */
   // discard Add Form, returns to DEFAULT menu view
   handleBackClick = () => {
     // this.props.toggleMenu();
@@ -210,7 +277,6 @@ export default class MyMap extends Component<{}, State> {
           draggable={true}
           autoPan={true}
           onMouseOver={e => {
-            e.target.openPopup();
           }}
 
           icon = {new L.Icon({
@@ -228,7 +294,6 @@ export default class MyMap extends Component<{}, State> {
         </Marker>
       ) : null;
     return (
-
       <div>
         <MenuSlide
           isOpen={this.props.menuState}
@@ -261,8 +326,10 @@ export default class MyMap extends Component<{}, State> {
           doubleClickZoom={false}
           zoomControl={true}
           onMove={e=>{
-              e.target.closePopup();}}
+              e.target.closePopup();
+          }}
         >
+
           <TileLayer
               maxZoom={19 /* we need both to work*/ }
               minZoom={1}

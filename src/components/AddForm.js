@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Form, Button } from "react-bootstrap";
+import './AddForm.css'
 import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
 import FormControl from '@material-ui/core/FormControl';
@@ -7,6 +8,7 @@ import MENU_MODES from "../MenuModes";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
+
 
 class AddForm extends Component {
 
@@ -83,8 +85,8 @@ class AddForm extends Component {
             />
             <br />
             Categories :{" "}
-            <FormControl >
-              <Select
+            <FormControl className="formControl">
+              <Select labelWidth={'200px'}
                   labelId="demo-mutiple-chip-label"
                   id="demo-mutiple-chip"
                   multiple
@@ -92,9 +94,9 @@ class AddForm extends Component {
                   onChange={this.handleChange}
                   input={<Input id="select-multiple-chip" />}
                   renderValue={selected => (
-                      <div >
+                      <div className="chips">
                         {selected.map(cat => (
-                            <Chip key={cat.id} label={cat.name} />
+                            <Chip key={cat.id} label={cat.name} className="chip" />
                         ))}
                       </div>
                   )}

@@ -159,8 +159,53 @@ export class requestPOI {
             return null;
         }
     }
-}
+    /*   for get the route
 
+    static async getRoute(itinary){
+      let locations = [];
+        for(let i in itinary) {
+            if (itinary[i]) {
+                locations.push(`${itinary[i].lat},${itinary[i].lng}`);
+            }
+        }
+        console.log(locations);
+        console.log(itinary);
+        let response = await fetch(
+            `https://www.mapquestapi.com/directions/v2/route?key=jnMr54lGGAhlHU2BkqurOpG8yvcaGJ6j`,
+            {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "https://www.mapquestapi.com/",
+                },
+                body:JSON.stringify({
+                        "locations": locations,
+                        "options": {
+                            "avoids": [],
+                            "avoidTimedConditions": false,
+                            "doReverseGeocode": true,
+                            "shapeFormat": "raw",
+                            "generalize": 0,
+                            "routeType": "fastest",
+                            "timeType": 1,
+                            "locale": "en_US",
+                            "unit": "m",
+                            "enhancedNarrative": false,
+                            "drivingStyle": 2,
+                            "highwayEfficiency": 21.0
+                        }
+                    }
+                )
+            }
+        );
+        let data = await response.json();
+        return data;
+    }
+
+     */
+
+}
 
 
 

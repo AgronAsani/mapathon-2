@@ -62,7 +62,6 @@ const MarkerList = props => {
           icon={marker.content.icon || null}
           position={marker.position}
           riseOnHover
-          onMouseOver={e => (e.target ? e.target.openPopup() : null)}
         >
           <Popup>
             <POI
@@ -318,6 +317,8 @@ export default class MyMap extends Component<{}, State> {
           handleModalShow={this.handleModalShow}
           handleEditModalClose={this.handleEditModalClose}
           handleEditModalShow={this.handleEditModalShow}
+          handleLikePOI={this.props.handleLikePOI}
+          handleUnlikePOI={this.props.handleUnlikePOI}
         />
         <Map
           viewport={this.state.center}

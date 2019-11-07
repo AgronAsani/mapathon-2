@@ -25,6 +25,8 @@ class MenuSlide extends Component {
             handleModalShow={this.props.handleModalShow}
             handleEditModalClose={this.props.handleEditModalClose}
             handleEditModalShow={this.props.handleEditModalShow}
+            handleLikePOI={this.props.handleLikePOI}
+            handleUnlikePOI={this.props.handleUnlikePOI}
           />
         );
         break;

@@ -29,6 +29,8 @@ class POIDisplay extends Component {
           handleModalShow={this.props.handleModalShow}
           handleEditModalClose={this.props.handleEditModalClose}
           handleEditModalShow={this.props.handleEditModalShow}
+          handleLikePOI={this.props.handleLikePOI}
+          handleUnlikePOI={this.props.handleUnlikePOI}
         />
       ));
 
@@ -111,7 +113,7 @@ class POIDisplay extends Component {
                     variant="success"
                     onClick={this.props.handleFilterUser}
                   >
-                    Filter your POIs{" "}
+                    Manage your POIs{" "}
                     <MdFilterList
                       size={24}
                       style={{ color: "white" }}

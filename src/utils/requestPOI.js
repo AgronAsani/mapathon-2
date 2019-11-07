@@ -3,52 +3,103 @@ export class requestPOI {
   static async updatePOI(id, updatePOI, getTokenSilently, loginWithPopup) {
     try {
       let token = await getTokenSilently();
-      // console.log(JSON.stringify(updatePOI));
       let response = await fetch(
-          `${process.env.REACT_APP_SERVER_URL}/poi/` + id,
-          {
-            method: "PATCH",
-            body: JSON.stringify(updatePOI),
-            headers: {
-              Accept: "application/json",
-                "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`
-            }
+        `${process.env.REACT_APP_SERVER_URL}/poi/` + id,
+        {
+          method: "PATCH",
+          body: JSON.stringify(updatePOI),
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
           }
+        }
       );
 
       let data = await response.json();
       return data;
     } catch (e) {
       console.error(e);
-      //await loginWithRedirect();
+      //await loginWithPopup();
+      return null;
+    }
+  }
+  static async likePOI(poiId, getTokenSilently, loginWithPopup) {
+    try {
+      let token = await getTokenSilently();
+      let response = await fetch(
+        `${process.env.REACT_APP_SERVER_URL}/poi/` + poiId + `/like`,
+        {
+          method: "PATCH",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+      let data = await response.json();
+      return data;
+    } catch (e) {
+      console.error(e);
+      //await loginWithPopup();
+      return null;
+    }
+  }
+  static async unlikePOI(poiId, getTokenSilently, loginWithPopup) {
+    try {
+      let token = await getTokenSilently();
+      let response = await fetch(
+        `${process.env.REACT_APP_SERVER_URL}/poi/` + poiId + `/unlike`,
+        {
+          method: "PATCH",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+      let data = await response.json();
+      return data;
+    } catch (e) {
+      console.error(e);
+      //await loginWithPopup();
       return null;
     }
   }
 
-  static async updatePOICategory(id, category, getTokenSilently, loginWithRedirect) {
+  static async updatePOICategory(
+    id,
+    category,
+    getTokenSilently,
+    loginWithPopup
+  ) {
     try {
       let token = await getTokenSilently();
-      console.log(JSON.stringify(`${process.env.REACT_APP_SERVER_URL}/poi/` + id + `/category`));
+      console.log(
+        JSON.stringify(
+          `${process.env.REACT_APP_SERVER_URL}/poi/` + id + `/category`
+        )
+      );
       console.log(JSON.stringify(category));
-      // console.log(JSON.stringify(updatePOI));
       let response = await fetch(
-          `${process.env.REACT_APP_SERVER_URL}/poi/` + id + `/category`,
-          {
-            method: "PATCH",
-            body: JSON.stringify(category),
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`
-            }
+        `${process.env.REACT_APP_SERVER_URL}/poi/` + id + `/category`,
+        {
+          method: "PATCH",
+          body: JSON.stringify(category),
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
           }
+        }
       );
 
       return await response.json();
     } catch (e) {
       console.error(e);
-      await loginWithRedirect;
+      await loginWithPopup;
       return null;
     }
   }
@@ -139,27 +190,30 @@ export class requestPOI {
       await loginWithPopup();
     }
   }
-    static async addNewCategory(newCategory, getTokenSilently, loginWithPopup) {
-        try {
-            let token = await getTokenSilently();
-            // console.log(JSON.stringify(newPOI));
-            let response = await fetch(`${process.env.REACT_APP_SERVER_URL}/category`, {
-                method: "POST",
-                body: JSON.stringify(newCategory),
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`
-                }
-            });
-            return await response.json();
-        } catch (e) {
-            console.error(e);
-            await loginWithPopup();
-            return null;
+  static async addNewCategory(newCategory, getTokenSilently, loginWithPopup) {
+    try {
+      let token = await getTokenSilently();
+      // console.log(JSON.stringify(newPOI));
+      let response = await fetch(
+        `${process.env.REACT_APP_SERVER_URL}/category`,
+        {
+          method: "POST",
+          body: JSON.stringify(newCategory),
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          }
         }
+      );
+      return await response.json();
+    } catch (e) {
+      console.error(e);
+      await loginWithPopup();
+      return null;
     }
-    /*   for get the route
+  }
+  /*   for get the route
 
     static async getRoute(itinary){
       let locations = [];
@@ -204,9 +258,6 @@ export class requestPOI {
     }
 
      */
-
 }
-
-
 
 export default requestPOI;

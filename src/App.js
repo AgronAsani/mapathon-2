@@ -23,8 +23,7 @@ function App() {
     loginWithPopup,
     getTokenSilently,
     logout,
-    isAuthenticated,
-    loginWithRedirect
+    isAuthenticated
   } = useAuth0();
   //component stock states : open/closed
   let [menuState, setMenuState] = useState(true);
@@ -38,7 +37,6 @@ function App() {
       let token = await getTokenSilently();
       await handleGetPOI();
     } catch (e) {
-      console.error(e);
       await loginWithPopup();
     }
   };
@@ -63,11 +61,7 @@ function App() {
   let handleGetPOI = async () => {
     // e.preventDefault();
     setCanDeletePOI(false);
-    let pois = await request(
-      `${process.env.REACT_APP_SERVER_URL}${endpoints.pois}`,
-      getTokenSilently,
-      loginWithPopup
-    );
+    let pois = await requestPOI.getAllPOI(getTokenSilently, loginWithPopup);
     setPois(pois);
     let markers = [];
     for (let i in pois) {
@@ -116,7 +110,6 @@ function App() {
     setCategories(categories);
   };
   let handleEditForm = async newContent => {
-    console.log(newContent);
     let result = await requestPOI.updatePOI(
       newContent.poiId,
       newContent.newPOI,
@@ -130,18 +123,13 @@ function App() {
       newContent.newPOI.categories.length > 0
     ) {
       let cat = newContent.newPOI.categories.map(myCat => myCat.id);
-      console.log(cat);
-      console.log(result.id);
-      console.log(JSON.stringify(cat));
       let result2 = await requestPOI.updatePOICategory(
         result.id,
         cat,
         getTokenSilently,
         loginWithPopup
       );
-      console.log(result2);
     }
-    console.log(newContent);
     setMenuMode(MENU_MODES.DEFAULT);
     handleGetPOI();
   };
@@ -160,16 +148,12 @@ function App() {
         newPOI.categories.length > 0
       ) {
         let cat = newPOI.categories.map(myCat => myCat.id);
-        console.log(cat);
-        console.log(result.id);
-        console.log(JSON.stringify(cat));
         let result2 = await requestPOI.updatePOICategory(
           result.id,
           cat,
           getTokenSilently,
           loginWithPopup
         );
-        console.log(result2);
       }
       setMenuMode(MENU_MODES.DEFAULT);
       handleGetPOI();
@@ -215,6 +199,14 @@ function App() {
     setLoaddingMarkers(true);
     handleGetPOI();
   }
+  let handleLikePOI = async id => {
+    await requestPOI.likePOI(id, getTokenSilently, loginWithPopup);
+    await handleGetPOI();
+  };
+  let handleUnlikePOI = async id => {
+    await requestPOI.unlikePOI(id, getTokenSilently, loginWithPopup);
+    await handleGetPOI();
+  };
   return (
     <div className="App">
       <NavigationBar
@@ -243,6 +235,8 @@ function App() {
           canDeletePOI={canDeletePOI}
           handleDeletePOI={handleDeletePOI}
           handleEditForm={handleEditForm}
+          handleLikePOI={handleLikePOI}
+          handleUnlikePOI={handleUnlikePOI}
         />
       </header>
     </div>

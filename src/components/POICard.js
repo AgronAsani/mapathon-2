@@ -4,11 +4,23 @@ import { MdModeEdit } from "react-icons/md";
 import {
   IoMdLocate,
   IoIosTrash,
-  IoIosInformationCircleOutline
+  IoIosInformationCircleOutline,
+  IoIosHeart,
+  IoIosHeartEmpty
 } from "react-icons/io";
-import POIDetail from "./POIDetail";
+
 export default function POICard(props) {
-  const { id, name, description, lat, lng, image, url } = props.content;
+  const {
+    id,
+    name,
+    description,
+    lat,
+    lng,
+    image,
+    url,
+    liked,
+    likes
+  } = props.content;
   const { Categories, Creator, Status } = props.content;
   let statusColor;
   if (Status) {
@@ -28,7 +40,24 @@ export default function POICard(props) {
     <Col>
       <Card style={{ width: "22rem" }}>
         <Card.Img className="img-fluid" src={image} />
+
         <Card.Body>
+          {Categories && Categories.length > 0 && (
+            <div className="mr-sm-2">
+              {Categories.map(category => (
+                <span key={category.id}>
+                  {category.image && (
+                    <img
+                      src={category.image}
+                      style={{ width: 24, height: 24 }}
+                    />
+                  )}
+                  <small> {category.name}</small>
+                </span>
+              ))}
+            </div>
+          )}
+          <br />
           <Card.Title>
             <a href={url}>{name} </a>
             {Status && (
@@ -54,6 +83,7 @@ export default function POICard(props) {
           >
             <IoMdLocate size={24} />
           </Button>
+
           {props.canDeletePOI && (
             <span>
               <Button
@@ -78,22 +108,22 @@ export default function POICard(props) {
               </Button>
             </span>
           )}
-          {Categories && Categories.length > 0 && (
-            <div className="mr-sm-2 float-left">
-              {Categories.map(category => (
-                <span key={category.id}>
-                  {category.image && (
-                    <img
-                      src={category.image}
-                      style={{ width: 24, height: 24 }}
-                    />
-                  )}
-                  <small> {category.name}</small>
-                </span>
-              ))}
-              <br />
-            </div>
-          )}
+          <div style={{ color: "#cc4545" }}>
+            {likes}
+            {liked ? (
+              <IoIosHeart
+                size={24}
+                className="mr-sm-1 float-left"
+                onClick={() => props.handleUnlikePOI(id)}
+              />
+            ) : (
+              <IoIosHeartEmpty
+                size={24}
+                className="mr-sm-1 float-left"
+                onClick={() => props.handleLikePOI(id)}
+              />
+            )}
+          </div>
         </Card.Body>
       </Card>
       <br />

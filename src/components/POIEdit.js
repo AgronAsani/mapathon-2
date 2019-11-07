@@ -12,6 +12,7 @@ class POIEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      poiId: this.props.modalEditPOI.id,
       Category: this.props.categories || [],
       myCategory: [],
       newPOI: {}
@@ -29,22 +30,30 @@ class POIEdit extends Component {
   };
   editPOIButtonClicked = event => {
     event.preventDefault();
-    this.setState(prevState => ({
-      newPOI: {
-        ...this.state.newPOI,
-        lat: this.props.modalEditPOI.lat,
-        lng: this.props.modalEditPOI.lng
-      }
-    }));
     let newContent = {
       poiId: this.props.modalEditPOI.id,
       newPOI: this.state.newPOI
     };
+    console.log(this.state.myCategory);
     this.props.handleEditForm(newContent);
     this.refs.form.reset();
     this.props.handleEditModalClose();
   };
-
+  handleChange = event => {
+    this.setState(
+      {
+        myCategory: event.target.value
+      },
+      () => {
+        this.setState({
+          newPOI: {
+            ...this.state.newPOI,
+            categories: this.state.myCategory
+          }
+        });
+      }
+    );
+  };
   render() {
     const {
       id,
@@ -97,6 +106,35 @@ class POIEdit extends Component {
                   className="form-control"
                 />
                 <br />
+                Categories :{" "}
+                <FormControl className="formControl">
+                  <Select
+                    labelWidth={"200px"}
+                    labelId="demo-mutiple-chip-label"
+                    id="demo-mutiple-chip"
+                    multiple
+                    value={this.state.myCategory}
+                    onChange={this.handleChange}
+                    input={<Input id="select-multiple-chip" />}
+                    renderValue={selected => (
+                      <div className="chips">
+                        {selected.map(cat => (
+                          <Chip
+                            key={cat.id}
+                            label={cat.name}
+                            className="chip"
+                          />
+                        ))}
+                      </div>
+                    )}
+                  >
+                    {this.state.Category.map(cat => (
+                      <MenuItem key={cat.id} value={cat}>
+                        {cat.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
                 <br />
                 Group:{" "}
                 <input

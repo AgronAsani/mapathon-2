@@ -116,12 +116,32 @@ function App() {
     setCategories(categories);
   };
   let handleEditForm = async newContent => {
+    console.log(newContent);
     let result = await requestPOI.updatePOI(
       newContent.poiId,
       newContent.newPOI,
       getTokenSilently,
       loginWithPopup
     );
+    if (
+      result &&
+      result.id &&
+      newContent.newPOI.categories &&
+      newContent.newPOI.categories.length > 0
+    ) {
+      let cat = newContent.newPOI.categories.map(myCat => myCat.id);
+      console.log(cat);
+      console.log(result.id);
+      console.log(JSON.stringify(cat));
+      let result2 = await requestPOI.updatePOICategory(
+        result.id,
+        cat,
+        getTokenSilently,
+        loginWithPopup
+      );
+      console.log(result2);
+    }
+    console.log(newContent);
     setMenuMode(MENU_MODES.DEFAULT);
     handleGetPOI();
   };
@@ -147,7 +167,7 @@ function App() {
           result.id,
           cat,
           getTokenSilently,
-          loginWithRedirect
+          loginWithPopup
         );
         console.log(result2);
       }
